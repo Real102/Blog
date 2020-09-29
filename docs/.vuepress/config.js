@@ -41,6 +41,8 @@ module.exports = {
 }
 
 function getBlobSideBar() {
+	// 参考快速引入方法，无需逐个添加
+	// https://github.com/vuejs/vuepress/blob/2fbad2867deaa21240a4e2339e1d63bce7ef20b4/packages/docs/docs/.vuepress/config.js#L140
 	return [
 		{
 			title: '博客', // 必要的
@@ -48,10 +50,19 @@ function getBlobSideBar() {
 			sidebarDepth: 1, // 可选的, 默认值是 1
 			children: [
 				['', '介绍'],
-				['vscode-for-web', '搭建 web 版 vs code'],
-				['get-image-size', '限制上传图片的尺寸'],
 			],
 		},
+		{
+			title: 'Javascript',
+			collapsable: false,
+			sidebarDepth: 1,
+			children: [
+				['vscode-for-web', '搭建 web 版 vs code'],
+				['get-image-size', '限制上传图片的尺寸'],
+				['preload-image', '图片预加载'],
+				['lazyload', '图片懒加载的两种实现方式'],
+			]
+		}
 	]
 }
 
