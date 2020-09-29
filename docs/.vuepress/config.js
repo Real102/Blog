@@ -26,11 +26,10 @@ module.exports = {
 		smoothScroll: true,
 		sidebar: 'auto', // 自动把当前页面的header当做侧边栏链接
 		lastUpdated: 'Last Updated', // 获取每个文件最后一次 git 提交的 UNIX 时间戳(ms)，同时它将以合适的日期格式显示在每一页的底部
-		repo: 'Real102/Blob',
-		// 默认是 false, 设置为 true 来启用
-		editLinks: true,
-		// 默认为 "Edit this page"
-		editLinkText: 'Edit in GitHub',
+		repo: 'Real102/Blob',	// 设置仓库地址，可以是完整地址也可以是相对地址
+		editLinks: true, // 默认是 false, 设置为 true 来启用
+		editLinkText: 'Edit in GitHub', // 默认为 "Edit this page"
+		docsDir: 'docs', // 假如文档不是放在仓库的根目录下，这里一般需要配置目标路径
 	},
 	configureWebpack: {
 		resolve: {
