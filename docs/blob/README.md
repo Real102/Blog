@@ -2,4 +2,4 @@
 
 没事写写博客，记录点滴
 
-[搭建web版vs code](./vscode-for-web.md)
+[搭建 web 版 vs code](./vscode-for-web.md)
