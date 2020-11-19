@@ -32,13 +32,13 @@ system:  win10 x64
 ➜  vscode (master)   yarn
 ```
 
-这里需要安装的依赖非常多，视网络情况大概20-60分钟不等。我用公司电脑安装依赖，因为有网络权限，所以网速很可观，大概20来分钟就安装完成了。
+这里需要安装的依赖非常多，视网络情况大概 20-60 分钟不等。我用公司电脑安装依赖，因为有网络权限，所以网速很可观，大概 20 来分钟就安装完成了。
 
 简单罗列一下遇到的问题，解决与未解决的都有
 
 #### gyp ERR
 
-![gyp ERR](https://github.com/Real102/resourceLibrary/raw/master/img/vscode/gypError.png  "gyp ERR")
+![gyp ERR](https://github.com/Real102/resourceLibrary/raw/master/img/vscode/gypError.png 'gyp ERR')
 
 这个问题相对好解决一些，直接重装一下 gyp
 
@@ -48,13 +48,13 @@ system:  win10 x64
 
 #### vscode-ripgrep
 
-![vscode-ripgrep](https://github.com/Real102/resourceLibrary/raw/master/img/vscode/vscode-ripgrep.png  "vscode-ripgrep")
+![vscode-ripgrep](https://github.com/Real102/resourceLibrary/raw/master/img/vscode/vscode-ripgrep.png 'vscode-ripgrep')
 
 也有可能会遇到这种情况，一直卡在下载 vscode-ripgrep 这里。在没有重装系统前，基本都是卡在这个阶段，一直下载不了。找 issue 也没有找到能解决的办法。后来想尝试用 docker 来跑，就换了个 win10 系统，安装 wsl 来跑。很失败，docker 安装不了:sob:，查了资料好像是说 wsl 不支持使用 docker，血崩:joy:！
 
 不过好在又重新按照文档上的流程走了一遍，奇迹发生了，依赖下载成功了！:clap::clap::clap::cherry_blossom::cherry_blossom::cherry_blossom:
 
-![yarn-build-successfully](https://github.com/Real102/resourceLibrary/raw/master/img/vscode/yarn-build-successfully.png  "yarn-build-successfully")
+![yarn-build-successfully](https://github.com/Real102/resourceLibrary/raw/master/img/vscode/yarn-build-successfully.png 'yarn-build-successfully')
 
 到这里已经是很不易了。此时心情非常 nice，迫不及待准备跑下一个命令
 
@@ -83,7 +83,7 @@ Error: ENOENT: no such file or directory, stat 'E:\code\vscode\vscodeNew\out\vs\
 
 #### JS-stacktrace
 
-![JS-stacktrace](https://github.com/Real102/resourceLibrary/raw/master/img/vscode/JS-stacktrace.png  "JS-stacktrace")
+![JS-stacktrace](https://github.com/Real102/resourceLibrary/raw/master/img/vscode/JS-stacktrace.png 'JS-stacktrace')
 
 js 栈溢出了:sob:。查了一下，据说是 V8 引擎的问题。
 
@@ -93,7 +93,7 @@ js 栈溢出了:sob:。查了一下，据说是 V8 引擎的问题。
 ➜  vscode (master)   npm run gulp --max_old_space_size=4095
 ```
 
-![npm-run-gulp](https://github.com/Real102/resourceLibrary/raw/master/img/vscode/npm-run-gulp.png  "npm-run-gulp")
+![npm-run-gulp](https://github.com/Real102/resourceLibrary/raw/master/img/vscode/npm-run-gulp.png 'npm-run-gulp')
 
 这里忽略重复的命令 `--max_old_space_size=4095` 不小心复制多了一份。
 
@@ -105,6 +105,6 @@ js 栈溢出了:sob:。查了一下，据说是 V8 引擎的问题。
 ➜  vscode (master)   yarn web
 ```
 
-![vscode](https://github.com/Real102/resourceLibrary/raw/master/img/vscode/vscode.png  "vscode")
+![vscode](https://github.com/Real102/resourceLibrary/raw/master/img/vscode/vscode.png 'vscode')
 
 完成！

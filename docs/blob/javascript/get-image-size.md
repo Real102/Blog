@@ -45,8 +45,8 @@ uploadImage(e) {
 在原生 input 中，我们可以通过 change 事件来获取上传的 file 对象，如果用其他组件或库会有所不同，如：[Element UI](https://element.eleme.cn/#/zh-CN/component/upload)，可以通过 **`on-change`** 钩子拿到 file 对象
 
 ```javascript
-let fileObj = document.getElementById('uploadFile')
-fileObj.onchange = function (e) {
+let fileObj = document.getElementById("uploadFile")
+fileObj.onchange = function(e) {
 	let file = e.target.files[0]
 }
 ```
