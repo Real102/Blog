@@ -79,7 +79,8 @@ function getBlobSideBar() {
 			children: [
 				["others/vscode-for-web", "搭建 web 版 vs code"],
 				["others/run-code-server", "本地跑code-server（1.39.2）"],
-				["others/format-phone", "手机号输入框的格式化显示"]
+				["others/format-phone", "手机号输入框的格式化显示"],
+				["others/data-type", "数据类型与转换"]
 			]
 		}
 	]
