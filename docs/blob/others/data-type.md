@@ -67,3 +67,42 @@ node.js 的缓冲区
 VSBuffer:
 protocol.sendControl(VSBuffer.fromString(JSON.stringify(connTypeRequest)));
 首先将object转换成json数据格式，然后再调用fromString转换成buffer格式
+
+```javascript
+// let arr = [1, 2, 3]
+// const buf1 = Buffer.from(JSON.stringify(arr))
+// console.log(buf1)
+
+// const buf2 = Buffer.from('hello world')
+// console.log(buf2)
+
+// const buf3 = Buffer.from('你好，世界')
+// console.log(buf3)
+
+// const buf4 = Buffer.from('16281', 'hex')
+// console.log(buf4)
+
+// const buf5 = Buffer.alloc(15, 'aGVsbG8gd29ybGQ=', 'base64')
+// console.log(buf5)
+// console.log(buf5.toString())
+
+// console.log(new TextDecoder().decode(buf1))
+// console.log(new TextDecoder().decode(buf2))
+// console.log(new TextDecoder().decode(buf3))
+
+// console.log(buf1.toString('binary'))
+// console.log(buf2.toString('hex'))
+// console.log(buf3.toString('base64'))
+
+const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
+console.log(buf)
+console.log(buf.toString())
+
+const buf1 = Buffer.from([0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64])
+console.log(buf1)
+console.log(buf1.toString())
+
+const buf2 = Buffer.from('7468697320697320612074c3a97374', 'hex')
+console.log(buf2)
+console.log(buf2.toString())
+```
