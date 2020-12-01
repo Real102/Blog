@@ -77,6 +77,7 @@ function getBlobSideBar() {
 			collapsable: false,
 			sidebarDepth: 1,
 			children: [
+				["others/nvm", "使用 nvm 来管理 npm"],
 				["others/vscode-for-web", "搭建 web 版 vs code"],
 				["others/run-code-server", "本地跑code-server（1.39.2）"],
 				["others/format-phone", "手机号输入框的格式化显示"],
