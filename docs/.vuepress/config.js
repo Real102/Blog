@@ -51,6 +51,14 @@ function getBlobSideBar() {
 			children: [["", "介绍"]]
 		},
 		{
+			title: "HTML",
+			collapsable: false,
+			sidebarDepth: 1,
+			children: [
+				["html/meta", "常用的meta标签"],
+			]
+		},
+		{
 			title: "Javascript",
 			collapsable: false,
 			sidebarDepth: 1,
