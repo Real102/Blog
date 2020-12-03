@@ -8,6 +8,7 @@
 -   `websocket` 数据交互使用的是 __十六进制__ 加密方式，可以用十六进制转字符串方法解码，也可以用 `TextDecoder` 解码
 -   注意 `node/ipc.net.ts` 中不能访问 `location` 对象
 -   运行过程中有时会一直重连，然后突然崩溃就一直连不上，具体什么原因不清楚
+-   `trailing whitespace` 报错是指，代码最后一个字符必须以 ';' 结尾，否则会报错
 
 ## 猜(mēng)测(bī)🤔
 
@@ -58,13 +59,60 @@
 
 ## 数据格式
 
+### browserSocketFactory.ts
+
+路径：D:\work\code\vscode\vscode\src\vs\platform\remote\browser\browserSocketFactory.ts  
+位置：`BrowserWebSocket` 下的 `send` 函数  
+作用：vscode 客户端发送数据的出口  
+其他：window环境，可以使用window对象  
+输出：  
+
+```javascript
+let searchArr:any = location.search;
+if(searchArr.indexOf('BSF_send') > -1) {
+	console.log(`[this.send]: -- ${new Date().getTime()}`);
+	console.log(new TextDecoder().decode(data));
+}
+
+// 初始数据格式
+r:{
+	buffer: [],	// Uint8Array
+	byteLength: 0
+}
+```
+
+路径：D:\work\code\vscode\vscode\src\vs\platform\remote\browser\browserSocketFactory.ts  
+位置：`BrowserWebSocket` 下的 `_socketMessageListener` 函数  
+作用：vscode 客户端接收数据的入口，包括代码，配置，文件信息等  
+其他：window环境，可以使用window对象  
+输出：  
+
+```javascript
+let searchArr:any = location.search;
+if(searchArr.indexOf('BSF_socketMessageListener') > -1) {
+	let myReader = new FileReader();
+	myReader.readAsText(blob);
+	myReader.onload = e => {
+		let myBuff = <string>(<any>e.target).result;
+		console.log(`[this._socketMessageListener]: -- ${new Date().getTime()}`);
+		console.log(myBuff);
+	}
+}
+
+// 初始数据格式
+r:{
+	buffer: [],	// Uint8Array
+	byteLength: 0
+}
+```
+
 ### ipc.ts
 
-路径：`E:\code\vscode\vscode\src\vs\base\parts\ipc\common\ipc.ts`
-位置：`ChannelServer` 下的 `sendBuffer` 函数
-作用：暂未确定功能
-其他：`node` 环境，在服务端输出，不能用 `window` 对象
-输出：
+路径：`E:\code\vscode\vscode\src\vs\base\parts\ipc\common\ipc.ts`  
+位置：`ChannelServer` 下的 `sendBuffer` 函数  
+作用：暂未确定功能  
+其他：`node` 环境，在服务端输出，不能用 `window` 对象  
+输出：  
 
 ```javascript
 console.log(`[ipc message send function:] -- ${new Date().getTime()}`);
@@ -77,31 +125,35 @@ r:{
 }
 ```
 
-路径：`E:\code\vscode\vscode\src\vs\base\parts\ipc\common\ipc.ts`
-位置：`ChannelClient` 下的 `sendBuffer` 函数
-作用：暂未确定功能
-其他：在客户端输出，但不能用 `window` 对象
-输出：
+路径：`E:\code\vscode\vscode\src\vs\base\parts\ipc\common\ipc.ts`  
+位置：`ChannelClient` 下的 `sendBuffer` 函数  
+作用：发送的是文件状态如：write、open、close、stat、publicLog2、getExtensionsReport、getInstalled等，具体用途暂未清楚  
+其他：在客户端输出，但不能用 `window` 对象  
+输出：  
 
 ```javascript
-console.log(`[ipc message server send function:] -- ${new Date().getTime()}`);
-console.log(message);
+const reader = new BufferReader(message);
+console.log(`[ChannelClient sendBuffer]: -- ${new Date().getTime()}`);
+console.log(deserialize(reader));
 
-// 数据格式
+// 初始数据格式
 s:{
 	buffer: [],	// Uint8Array
 	byteLength: 0
 }
+
+// deserialize ==>
+// (4) [100, 488, "remotefilesystem", "write"]
 ```
 
 ### ipc.net.ts
 
-路径：`E:\code\vscode\vscode\src\vs\base\parts\ipc\node\ipc.net.ts`
-位置：`WebSocketNodeSocket` 下的 `_acceptChunk` 函数 -- `this.socket.onData(data => this._acceptChunk(data))`
-作用：可能是服务端接收到ws传输的数据之后的处理函数
-其他：node环境，在服务端输出，不能用 `window` 对象
-问题：node 下没有 TextDecoder 对象？
-输出：
+路径：`E:\code\vscode\vscode\src\vs\base\parts\ipc\node\ipc.net.ts`  
+位置：`WebSocketNodeSocket` 下的 `_acceptChunk` 函数 -- `this.socket.onData(data => this._acceptChunk(data))`  
+作用：可能是服务端接收到ws传输的数据之后的处理函数  
+其他：node环境，在服务端输出，不能用 `window` 对象  
+问题：node 下没有 TextDecoder 对象  
+输出：  
 
 ```javascript
 console.log(`[_acceptChunk normal start:] -- ${new Date().getTime()}`);
