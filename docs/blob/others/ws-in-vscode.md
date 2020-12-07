@@ -1,118 +1,147 @@
 # 研(cāi)究 👨‍💻vscode 中的 websocket
 
-## 踩过的无底洞 🕳
-
--   修改的源码要确保不能出现错误如： tslint 提示语法错误的代码等
--   打包的 patch 文件一定要注意，编码是 **`UTF-8`**，且换行符的格式是：**`LF`**（默认是`CRLF`）
--   如果遇到 patch 合并失败问题，可以先试试清除服务器的缓存（重新 clone），然后再重新执行 `yarn build`
--   `websocket` 数据交互使用的是 **十六进制** 加密方式，可以用十六进制转字符串方法解码，也可以用 `TextDecoder` 解码
--   注意 `node/ipc.net.ts` 中不能访问 `location` 对象
--   运行过程中有时会一直重连，然后突然崩溃就一直连不上，具体什么原因不清楚
--   `trailing whitespace` 报错是指，代码最后一个字符必须以 ';' 结尾，否则会报错
-
-## 猜(mēng)测(bī)🤔
-
--   `code-server` 基本依赖都是在 `vscode` 上，在浏览器控制台的 `source` 板块是搜不到任何 `code-server` 目录下的相关代码，只有存在于 `vscode` 的才能搜到
--   `vscode` 的 `websocket` 发送数据方法在 `browserSocketFactory.ts` 的 `send` 方法，可以 `console.log` 打印到控制台看看。可以用 `TextDecoder` 去解码数据，数据的加密也可以在这里处理
--   `vscode` 的 `websocket` 接收数据方法在 `browserSocketFactory.ts` 的 `_socketMessageListener` 方法，参数 `ev` 是 `Blob` 格式内容，并且这里是最先接收到 `code-server` 返回的内容，可以在这里解密
--   `ipc` 是进程之间的交互方式，
--   两个 `websocket` 中第一个主要是数据交互，第二个主要是用于心跳检测
--   `buffer.ts` 中定义了一个 `hasBuffer` 变量，用于判断是否有 `Buffer` 对象。（`window`下为`undefined`），然后对数据的格式进行对应的改变。在`node`环境下用`Buffer`，在`window`环境下使用`TextDecoder`
-
-## 打包流程
-
--   环境选择：Ubuntu、debian
--   `code-sever >`
--   yarn 安装依赖
--   `yarn build 1.39.2 { codeservername }` 名字随意取---这一步可以生成 `/build/code-server{ codeservername }-vsc1.39.2-linux-x86_64-built` ---------- 这一步非常花时间
--   `node /path/to/output/build/out/vs/server/main.js` --这一步是跑 demo --- **window 下跑不了的**
--   `yarn binary 1.39.2 { codeservername }` --打包二进制文件
-
-## 参考文档
-
--   [code-server 是如何把 vscode 搬到浏览器的](https://juejin.cn/post/6844904024005672968) 🚀
--   [vscode](https://github.com/microsoft/vscode) 🚀
--   [code-server](https://github.com/cdr/code-server) 🚀
-
-## 其(ná)他(dē)😅
-
--   下面应该是 `ipc` 之间交互的数据报文格式
-
-````javascript
-/**
- * A message has the following format:
- * ```
- *     /-------------------------------|------\
- *     |             HEADER            |      |
- *     |-------------------------------| DATA |
- *     | TYPE | ID | ACK | DATA_LENGTH |      |
- *     \-------------------------------|------/
- * ```
- * The header is 9 bytes and consists of:
- *  - TYPE is 1 byte (ProtocolMessageType) - the message type
- *  - ID is 4 bytes (u32be) - the message id (can be 0 to indicate to be ignored)
- *  - ACK is 4 bytes (u32be) - the acknowledged message id (can be 0 to indicate to be ignored)
- *  - DATA_LENGTH is 4 bytes (u32be) - the length in bytes of DATA
- *
- * Only Regular messages are counted, other messages are not counted, nor acknowledged.
- */
-````
-
 ## 关键代码解析
 
 ### browserSocketFactory.ts
 
-路径：D:\work\code\vscode\vscode\src\vs\platform\remote\browser\browserSocketFactory.ts  
-位置：`BrowserWebSocket` 下的 `send` 函数  
-作用：vscode 客户端发送数据的出口  
-其他：window 环境，可以使用 window 对象  
-输出：
+路径：[browserSocketFactory.ts](https://github.com/microsoft/vscode/tree/master/src/vs/base/) 🚀 -- `BrowserWebSocket` 下的 `send` 函数  
+功能：vscode 客户端发送数据的出入口  
+分析：
 
-```javascript
-let searchArr:any = location.search;
-if(searchArr.indexOf('BSF_send') > -1) {
-	console.log(`[this.send]: -- ${new Date().getTime()}`);
-	console.log(new TextDecoder().decode(data));
-}
+```typescript
+class BrowserWebSocket extends Disposable implements IWebSocket {
+	// 这里new一个事件触发器，包含fire方法
+	// The Emitter can be used to expose an Event to the public to fire it from the insides.
+	// 引用自 event.ts 的 Emitter 类
+	// 这里主要是注册事件，并存在 this._store 中 this_store 是 DisposableStore 对象数据
+	private readonly _onData = new Emitter<ArrayBuffer>()
+	public readonly onData = this._onData.event
 
-// 初始数据格式
-r:{
-	buffer: [],	// Uint8Array
-	byteLength: 0
-}
-```
+	public readonly onOpen: Event<void>
 
-路径：D:\work\code\vscode\vscode\src\vs\platform\remote\browser\browserSocketFactory.ts  
-位置：`BrowserWebSocket` 下的 `_socketMessageListener` 函数  
-作用：vscode 客户端接收数据的入口，包括代码，配置，文件信息等  
-其他：window 环境，可以使用 window 对象  
-输出：
+	private readonly _onClose = this._register(new Emitter<void>())
+	public readonly onClose = this._onClose.event
 
-```javascript
-let searchArr:any = location.search;
-if(searchArr.indexOf('BSF_socketMessageListener') > -1) {
-	let myReader = new FileReader();
-	myReader.readAsText(blob);
-	myReader.onload = e => {
-		let myBuff = <string>(<any>e.target).result;
-		console.log(`[this._socketMessageListener]: -- ${new Date().getTime()}`);
-		console.log(myBuff);
+	private readonly _onError = this._register(new Emitter<any>())
+	public readonly onError = this._onError.event
+
+	private readonly _socket: WebSocket
+	private readonly _fileReader: FileReader
+	private readonly _queue: Blob[]
+	private _isReading: boolean
+	private _isClosed: boolean
+
+	private readonly _socketMessageListener: (ev: MessageEvent) => void
+
+	constructor(socket: WebSocket) {
+		super()
+		this._socket = socket
+		this._fileReader = new FileReader()
+		this._queue = []
+		this._isReading = false
+		this._isClosed = false
+
+		this._fileReader.onload = event => {
+			this._isReading = false
+			const buff = <ArrayBuffer>(<any>event.target).result
+
+			this._onData.fire(buff)
+
+			if (this._queue.length > 0) {
+				enqueue(this._queue.shift()!)
+			}
+		}
+
+		const enqueue = (blob: Blob) => {
+			if (this._isReading) {
+				this._queue.push(blob)
+				return
+			}
+			this._isReading = true
+			this._fileReader.readAsArrayBuffer(blob)
+		}
+
+		this._socketMessageListener = (ev: MessageEvent) => {
+			enqueue(<Blob>ev.data)
+		}
+		this._socket.addEventListener("message", this._socketMessageListener)
+
+		this.onOpen = Event.fromDOMEventEmitter(this._socket, "open")
+
+		let pendingErrorEvent: any | null = null
+
+		const sendPendingErrorNow = () => {
+			const err = pendingErrorEvent
+			pendingErrorEvent = null
+			this._onError.fire(err)
+		}
+
+		const errorRunner = this._register(new RunOnceScheduler(sendPendingErrorNow, 0))
+
+		const sendErrorSoon = (err: any) => {
+			errorRunner.cancel()
+			pendingErrorEvent = err
+			errorRunner.schedule()
+		}
+
+		const sendErrorNow = (err: any) => {
+			errorRunner.cancel()
+			pendingErrorEvent = err
+			sendPendingErrorNow()
+		}
+
+		this._register(
+			dom.addDisposableListener(this._socket, "close", (e: CloseEvent) => {
+				this._isClosed = true
+
+				if (pendingErrorEvent) {
+					if (!window.navigator.onLine) {
+						// The browser is offline => this is a temporary error which might resolve itself
+						sendErrorNow(new RemoteAuthorityResolverError("Browser is offline", RemoteAuthorityResolverErrorCode.TemporarilyNotAvailable, e))
+					} else {
+						// An error event is pending
+						// The browser appears to be online...
+						if (!e.wasClean) {
+							// Let's be optimistic and hope that perhaps the server could not be reached or something
+							sendErrorNow(new RemoteAuthorityResolverError(e.reason || `WebSocket close with status code ${e.code}`, RemoteAuthorityResolverErrorCode.TemporarilyNotAvailable, e))
+						} else {
+							// this was a clean close => send existing error
+							errorRunner.cancel()
+							sendPendingErrorNow()
+						}
+					}
+				}
+
+				this._onClose.fire()
+			})
+		)
+
+		this._register(dom.addDisposableListener(this._socket, "error", sendErrorSoon))
+	}
+
+	send(data: ArrayBuffer | ArrayBufferView): void {
+		if (this._isClosed) {
+			// Refuse to write data to closed WebSocket...
+			return
+		}
+		this._socket.send(data)
+	}
+
+	close(): void {
+		this._isClosed = true
+		this._socket.close()
+		this._socket.removeEventListener("message", this._socketMessageListener)
+		this.dispose()
 	}
 }
-
-// 初始数据格式
-r:{
-	buffer: [],	// Uint8Array
-	byteLength: 0
-}
 ```
 
-### ipc.ts
+<!-- ### ipc.ts
 
-路径：`E:\code\vscode\vscode\src\vs\base\parts\ipc\common\ipc.ts`  
-位置：`ChannelServer` 下的 `sendBuffer` 函数  
-作用：暂未确定功能  
-其他：`node` 环境，在服务端输出，不能用 `window` 对象  
+路径：`E:\code\vscode\vscode\src\vs\base\parts\ipc\common\ipc.ts`
+位置：`ChannelServer` 下的 `sendBuffer` 函数
+作用：暂未确定功能
+其他：`node` 环境，在服务端输出，不能用 `window` 对象
 输出：
 
 ```javascript
@@ -126,10 +155,10 @@ r:{
 }
 ```
 
-路径：`E:\code\vscode\vscode\src\vs\base\parts\ipc\common\ipc.ts`  
-位置：`ChannelClient` 下的 `sendBuffer` 函数  
-作用：发送的是文件状态如：write、open、close、stat、publicLog2、getExtensionsReport、getInstalled 等，具体用途暂未清楚  
-其他：在客户端输出，但不能用 `window` 对象  
+路径：`E:\code\vscode\vscode\src\vs\base\parts\ipc\common\ipc.ts`
+位置：`ChannelClient` 下的 `sendBuffer` 函数
+作用：发送的是文件状态如：write、open、close、stat、publicLog2、getExtensionsReport、getInstalled 等，具体用途暂未清楚
+其他：在客户端输出，但不能用 `window` 对象
 输出：
 
 ```javascript
@@ -145,17 +174,13 @@ s:{
 
 // deserialize ==>
 // (4) [100, 488, "remotefilesystem", "write"]
-```
+``` -->
 
 ### ipc.net.ts
 
-路径：[ipc.net.ts🚀](https://github.com/microsoft/vscode/tree/master/src/vs/base/parts/ipc/node/ipc.net.ts)  
-位置：`WebSocketNodeSocket` 下的 `_acceptChunk` 函数 -- `this.socket.onData(data => this._acceptChunk(data))`  
-作用：可能是服务端接收到 ws 传输的数据之后的处理函数  
+路径：[ipc.net.ts](https://github.com/microsoft/vscode/tree/master/src/vs/base/parts/ipc/node/ipc.net.ts) 🚀 -- `WebSocketNodeSocket` 下的 `_acceptChunk` 函数（`this.socket.onData(data => this._acceptChunk(data))`）  
+功能：初步确认是服务端接收 ws 传输的数据之后的处理函数  
 分析：
-
-<!-- 其他：node 环境，在服务端输出，不能用 `window` 对象
-问题：node 下没有 TextDecoder 对象   -->
 
 ```typescript
 private _acceptChunk(data: VSBuffer): void {
@@ -237,7 +262,7 @@ private _acceptChunk(data: VSBuffer): void {
 			this._state.state = ReadState.PeekHeader;
 			this._state.readLen = Constants.MinHeaderByteSize;
 			this._state.mask = 0;
-			// TODO: fire的作用？
+			// TODO: fire的作用？类似触发所有关联事件？
 			this._onData.fire(body);
 		}
 	}
@@ -367,3 +392,62 @@ export class ChunkStream {
 	}
 }
 ```
+
+## 踩过的无底洞 🕳
+
+-   修改的源码要确保不能出现错误如： tslint 提示语法错误的代码等
+-   打包的 patch 文件一定要注意，编码是 **`UTF-8`**，且换行符的格式是：**`LF`**（默认是`CRLF`）
+-   如果遇到 patch 合并失败问题，可以先试试清除服务器的缓存（重新 clone），然后再重新执行 `yarn build`
+-   `websocket` 数据交互使用的是 **十六进制** 加密方式，可以用十六进制转字符串方法解码，也可以用 `TextDecoder` 解码
+-   注意 `node/ipc.net.ts` 中不能访问 `location` 对象
+-   运行过程中有时会一直重连，然后突然崩溃就一直连不上，具体什么原因不清楚
+-   `trailing whitespace` 报错是指，代码最后一个字符必须以 ';' 结尾，否则会报错
+
+## 猜(mēng)测(bī)🤔
+
+-   `code-server` 基本依赖都是在 `vscode` 上，在浏览器控制台的 `source` 板块是搜不到任何 `code-server` 目录下的相关代码，只有存在于 `vscode` 的才能搜到
+-   `vscode` 的 `websocket` 发送数据方法在 `browserSocketFactory.ts` 的 `send` 方法，可以 `console.log` 打印到控制台看看。可以用 `TextDecoder` 去解码数据，数据的加密也可以在这里处理
+-   `vscode` 的 `websocket` 接收数据方法在 `browserSocketFactory.ts` 的 `_socketMessageListener` 方法，参数 `ev` 是 `Blob` 格式内容，并且这里是最先接收到 `code-server` 返回的内容，可以在这里解密
+-   `ipc` 是进程之间的交互方式，
+-   两个 `websocket` 中第一个主要是数据交互，第二个主要是用于心跳检测
+-   `buffer.ts` 中定义了一个 `hasBuffer` 变量，用于判断是否有 `Buffer` 对象。（`window`下为`undefined`），然后对数据的格式进行对应的改变。在`node`环境下用`Buffer`，在`window`环境下使用`TextDecoder`
+
+## 打包流程
+
+-   环境选择：Ubuntu、debian
+-   `code-sever >`
+-   yarn 安装依赖
+-   `yarn build 1.39.2 { codeservername }` 名字随意取---这一步可以生成 `/build/code-server{ codeservername }-vsc1.39.2-linux-x86_64-built` ---------- 这一步非常花时间
+-   `node /path/to/output/build/out/vs/server/main.js` --这一步是跑 demo --- **window 下跑不了的**
+-   `yarn binary 1.39.2 { codeservername }` --打包二进制文件
+
+## 参考文档
+
+-   [code-server 是如何把 vscode 搬到浏览器的](https://juejin.cn/post/6844904024005672968) 🚀
+-   [vscode](https://github.com/microsoft/vscode) 🚀
+-   [code-server](https://github.com/cdr/code-server) 🚀
+-   [nodeJS](http://nodejs.cn/api/) 🚀
+
+## 其(ná)他(dē)😅
+
+-   下面应该是 `ipc` 之间交互的数据报文格式
+
+````javascript
+/**
+ * A message has the following format:
+ * ```
+ *     /-------------------------------|------\
+ *     |             HEADER            |      |
+ *     |-------------------------------| DATA |
+ *     | TYPE | ID | ACK | DATA_LENGTH |      |
+ *     \-------------------------------|------/
+ * ```
+ * The header is 9 bytes and consists of:
+ *  - TYPE is 1 byte (ProtocolMessageType) - the message type
+ *  - ID is 4 bytes (u32be) - the message id (can be 0 to indicate to be ignored)
+ *  - ACK is 4 bytes (u32be) - the acknowledged message id (can be 0 to indicate to be ignored)
+ *  - DATA_LENGTH is 4 bytes (u32be) - the length in bytes of DATA
+ *
+ * Only Regular messages are counted, other messages are not counted, nor acknowledged.
+ */
+````
