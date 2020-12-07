@@ -54,9 +54,7 @@ function getBlobSideBar() {
 			title: "HTML",
 			collapsable: false,
 			sidebarDepth: 1,
-			children: [
-				["html/meta", "常用的meta标签"],
-			]
+			children: [["html/meta", "常用的meta标签"]]
 		},
 		{
 			title: "Javascript",
@@ -87,7 +85,7 @@ function getBlobSideBar() {
 			children: [
 				["others/nvm", "使用 nvm 来管理 npm"],
 				["others/vscode-for-web", "搭建 web 版 vs code"],
-				["others/run-code-server", "本地跑code-server（1.39.2）"],
+				["others/ws-in-vscode", "研究vscode中的websocket"],
 				["others/format-phone", "手机号输入框的格式化显示"],
 				["others/data-type", "数据类型与转换"]
 			]
