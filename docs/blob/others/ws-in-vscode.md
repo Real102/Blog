@@ -1,4 +1,20 @@
-# 研(cāi)究 👨‍💻vscode 中的 websocket
+# 研(kàn)究(kàn) 👨‍💻vscode 中的 websocket
+
+## 前言
+
+因项目要求，要对 `vscode` 的 `websocket` 传输的数据进行加密。由于对 `ts` 和 `node` 不够熟悉，在撞破了几个脑袋之后，记录下自己的一些理解。
+
+`vscode` 是基于 `typescript` 和 `node` (桌面版：`electron`)，在看下面的内容前，建议提前了解一下 `Buffer、ArrayBuffer、TypedArray` 以及位运算等，会更加容易理解
+
+## 打包流程
+
+-   环境选择：Ubuntu、debian
+-   进入项目根目录 `code-sever >`
+-   执行 `yarn` 安装依赖
+-   打包 `yarn build 1.39.2 { codeservername }` 名字随意取，这一步将生成 `/build/code-server{ codeservername }-vsc1.39.2-linux-x86_64-built` （比较花时间）
+-   执行 `node /path/to/output/build/out/vs/server/main.js` 这一步是跑 demo，但注意 **window 下跑不了的**
+-   执行 `yarn binary 1.39.2 { codeservername }` 打包二进制文件
+-   执行打包好的二进制文件即可访问
 
 ## 关键代码解析
 
@@ -274,12 +290,9 @@ private readonly _state = {
 	readLen: Constants.MinHeaderByteSize,	// 最小头部长度
 	mask: 0	// 标志位
 };
-```
 
-ChunkStream class
-
-```typescript
-// https://github.com/microsoft/vscode/tree/master/src/vs/base/parts/ipc/common/ipc.net.ts
+// ChunkStream class
+// 位置： https://github.com/microsoft/vscode/tree/master/src/vs/base/parts/ipc/common/ipc.net.ts
 export class ChunkStream {
 	// 相当于 Buffer 数组
 	private _chunks: VSBuffer[]
@@ -393,17 +406,64 @@ export class ChunkStream {
 }
 ```
 
+路径：[ipc.net.ts](https://github.com/microsoft/vscode/tree/master/src/vs/base/parts/ipc/node/ipc.net.ts) 🚀 -- `WebSocketNodeSocket` 下的 `write` 函数  
+功能：初步确认是服务端发送 ws 的函数  
+分析：
+
+```typescript
+// class WebSocketNodeSocket
+public write(buffer: VSBuffer): void {
+	// 初始化 headerLen 为最小头部长度
+	let headerLen = Constants.MinHeaderByteSize;
+	// 根据字节长度，确定 headerLen 的大小
+	if (buffer.byteLength < 126) {
+		headerLen += 0;
+	} else if (buffer.byteLength < 2 ** 16) {
+		headerLen += 2;
+	} else {
+		headerLen += 8;
+	}
+	// 创建 headerLen 长度的字节序列
+	const header = VSBuffer.alloc(headerLen);
+	// 第一位无符号整数修改为 0b10000010
+	header.writeUInt8(0b10000010, 0);
+	if (buffer.byteLength < 126) {
+		header.writeUInt8(buffer.byteLength, 1);
+	} else if (buffer.byteLength < 2 ** 16) {
+		header.writeUInt8(126, 1);
+		let offset = 1;
+		header.writeUInt8((buffer.byteLength >>> 8) & 0b11111111, ++offset);
+		header.writeUInt8((buffer.byteLength >>> 0) & 0b11111111, ++offset);
+	} else {
+		header.writeUInt8(127, 1);
+		let offset = 1;
+		header.writeUInt8(0, ++offset);
+		header.writeUInt8(0, ++offset);
+		header.writeUInt8(0, ++offset);
+		header.writeUInt8(0, ++offset);
+		header.writeUInt8((buffer.byteLength >>> 24) & 0b11111111, ++offset);
+		header.writeUInt8((buffer.byteLength >>> 16) & 0b11111111, ++offset);
+		header.writeUInt8((buffer.byteLength >>> 8) & 0b11111111, ++offset);
+		header.writeUInt8((buffer.byteLength >>> 0) & 0b11111111, ++offset);
+	}
+	// 这里的 [header, buffer] 这种方式组成了 Blob 格式数据，具体可以查看【参考文档-Blob】
+	// header 可以是 ArrayBuffer、TypedArray、blob、DOMString
+	// Blob(blobParts[, options]) 返回一个新创建的 Blob 对象，其内容由参数中【给定的数组串联组成】
+	this.socket.write(VSBuffer.concat([header, buffer]));
+}
+```
+
 ## 踩过的无底洞 🕳
 
 -   修改的源码要确保不能出现错误如： tslint 提示语法错误的代码等
 -   打包的 patch 文件一定要注意，编码是 **`UTF-8`**，且换行符的格式是：**`LF`**（默认是`CRLF`）
--   如果遇到 patch 合并失败问题，可以先试试清除服务器的缓存（重新 clone），然后再重新执行 `yarn build`
--   `websocket` 数据交互使用的是 **十六进制** 加密方式，可以用十六进制转字符串方法解码，也可以用 `TextDecoder` 解码
--   注意 `node/ipc.net.ts` 中不能访问 `location` 对象
+-   如果遇到 patch 失败问题，可以先试试清除服务器的缓存（重新 clone 项目代码），然后再重新执行 `yarn build`
+    <!-- -   `websocket` 数据交互使用的是 **十六进制** 加密方式，可以用十六进制转字符串方法解码，也可以用 `TextDecoder` 解码 -->
+-   注意 vscode 内部同时有 window 环境和 node 环境，要注意使用属性的兼容性，避免报错
 -   运行过程中有时会一直重连，然后突然崩溃就一直连不上，具体什么原因不清楚
 -   `trailing whitespace` 报错是指，代码最后一个字符必须以 ';' 结尾，否则会报错
 
-## 猜(mēng)测(bī)🤔
+## 猜测
 
 -   `code-server` 基本依赖都是在 `vscode` 上，在浏览器控制台的 `source` 板块是搜不到任何 `code-server` 目录下的相关代码，只有存在于 `vscode` 的才能搜到
 -   `vscode` 的 `websocket` 发送数据方法在 `browserSocketFactory.ts` 的 `send` 方法，可以 `console.log` 打印到控制台看看。可以用 `TextDecoder` 去解码数据，数据的加密也可以在这里处理
@@ -412,23 +472,7 @@ export class ChunkStream {
 -   两个 `websocket` 中第一个主要是数据交互，第二个主要是用于心跳检测
 -   `buffer.ts` 中定义了一个 `hasBuffer` 变量，用于判断是否有 `Buffer` 对象。（`window`下为`undefined`），然后对数据的格式进行对应的改变。在`node`环境下用`Buffer`，在`window`环境下使用`TextDecoder`
 
-## 打包流程
-
--   环境选择：Ubuntu、debian
--   `code-sever >`
--   yarn 安装依赖
--   `yarn build 1.39.2 { codeservername }` 名字随意取---这一步可以生成 `/build/code-server{ codeservername }-vsc1.39.2-linux-x86_64-built` ---------- 这一步非常花时间
--   `node /path/to/output/build/out/vs/server/main.js` --这一步是跑 demo --- **window 下跑不了的**
--   `yarn binary 1.39.2 { codeservername }` --打包二进制文件
-
-## 参考文档
-
--   [code-server 是如何把 vscode 搬到浏览器的](https://juejin.cn/post/6844904024005672968) 🚀
--   [vscode](https://github.com/microsoft/vscode) 🚀
--   [code-server](https://github.com/cdr/code-server) 🚀
--   [nodeJS](http://nodejs.cn/api/) 🚀
-
-## 其(ná)他(dē)😅
+## 其他
 
 -   下面应该是 `ipc` 之间交互的数据报文格式
 
@@ -451,3 +495,12 @@ export class ChunkStream {
  * Only Regular messages are counted, other messages are not counted, nor acknowledged.
  */
 ````
+
+## 参考文档
+
+-   [code-server 是如何把 vscode 搬到浏览器的](https://juejin.cn/post/6844904024005672968) 🚀
+-   [vscode](https://github.com/microsoft/vscode) 🚀
+-   [code-server](https://github.com/cdr/code-server) 🚀
+-   [nodeJS](http://nodejs.cn/api/) 🚀
+-   [ArrayBuffer](https://zh.javascript.info/arraybuffer-binary-arrays) 🚀
+-   [Blob](https://developer.mozilla.org/zh-CN/docs/Web/API/Blob) 🚀
