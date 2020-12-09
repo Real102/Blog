@@ -60,26 +60,28 @@ class BrowserWebSocket extends Disposable implements IWebSocket {
 		this._fileReader.onload = event => {
 			this._isReading = false
 			const buff = <ArrayBuffer>(<any>event.target).result
-
 			this._onData.fire(buff)
-
+			// 当 queue 还有数据的时候，继续执行
 			if (this._queue.length > 0) {
 				enqueue(this._queue.shift()!)
 			}
 		}
 
 		const enqueue = (blob: Blob) => {
+			// 这里做了个缓冲处理，当正在读取数据时，将 Blob 缓存在 queue 中
 			if (this._isReading) {
 				this._queue.push(blob)
 				return
 			}
 			this._isReading = true
+			// 这里将收到的 Blob 数据转换成 ArrayBuffer
 			this._fileReader.readAsArrayBuffer(blob)
 		}
 
 		this._socketMessageListener = (ev: MessageEvent) => {
 			enqueue(<Blob>ev.data)
 		}
+		// websocket 的 message 事件，接收服务端传回来的数据
 		this._socket.addEventListener("message", this._socketMessageListener)
 
 		this.onOpen = Event.fromDOMEventEmitter(this._socket, "open")

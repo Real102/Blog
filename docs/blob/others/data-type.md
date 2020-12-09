@@ -2,11 +2,12 @@
 
 ## 前言
 
-Buffer 与 ArrayBuffer
+Buffer 、 ArrayBuffer 、 Blob
 
--   Buffer 是 node 环境下的缓冲器，用于表示固定长度的字节序列（`Buffer.from() | Buffer.alloc()`）
--   ArrayBuffer 是 window 环境下的二进制/字节数组，是对固定长度的连续内存空间的引用（`new ArrayBuffer(length)`）
--   TypedArray 称为视图（`Uint8Array，Uint32Array`），是操作 ArrayBuffer 的主要途径
+-   `Buffer` 是 `node` 环境下的缓冲器，用于表示固定长度的字节序列（`Buffer.from() | Buffer.alloc()`），可用 `toString()` 方法转成字符串，也可以指定编码格式
+-   `ArrayBuffer` 是 `window` 环境下的二进制/字节数组，是对固定长度的连续内存空间的引用（`new ArrayBuffer(length)`），可用 [TextDecoder](https://developer.mozilla.org/zh-CN/docs/Web/API/TextDecoder) 🚀 构造函数解析成字符串
+-   `TypedArray` 称为视图（`Uint8Array，Uint32Array`），是操作 `ArrayBuffer` 的主要途径
+-   `Blob` 表示一个不可变、原始数据的类文件对象，它的数据可以按文本或二进制的格式进行读取，也可以转换成 ReadableStream 来用于数据操作。可以通过 [FileReader](https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader) 🚀 转换成指定格式
 
 ## Buffer
 
@@ -111,7 +112,7 @@ console.log(buf)
 
 `encoding`: 编码格式，默认值为 'UTF-8'  
 `start`: 开始解码的字节偏移量，默认值为 '0'  
-`end`: 结束解码的字节偏移量，默认值: buf.length。
+`end`: 结束解码的字节偏移量，默认值: `buf.length`。
 
 这里会根据指定的编码格式去解码，可以传入 `start` 和 `end` 单独解析 `buf` 的子集。如果 `encoding` 为 `utf8`，并且输入中的字节序列 **不是有效的 UTF-8**，则每个无效的字节都会由替换字符 `U+FFFD` 替换。
 
@@ -132,7 +133,7 @@ console.log(buf.toString("hex", 3, 5))
 `length`: 要写入的最大字节数，默认值: buf.length - offset  
 `encoding`: 字符编码，默认值: 'utf8'
 
-将指定的编码格式数据写入到 buf 的指定开始位置，如果没有足够的空间保存整个字符串，则只会写入字符串的一部分
+将指定的编码格式数据写入到 `buf` 的指定开始位置，如果没有足够的空间保存整个字符串，则只会写入字符串的一部分
 
 ```javascript
 let buf = Buffer.alloc(10)
@@ -165,10 +166,47 @@ console.log(buf.readUInt8(1))
 
 -   它的长度是固定的，我们无法增加或减少它的长度
 -   它正好占用了内存中的那么多空间
--   要访问单个字节，需要另一个“视图”对象（`Uint8Array`），而不是 buffer[index]
+-   要访问单个字节，需要另一个“视图”对象（`TypedArray`），而不是 buffer[index]
 
----
+### Uint8Array ( TypedArray )
 
-Buffer 与字符串之间的转换还有其他的编码格式可选，其他编码格式可以参考 [这里 🚀](http://nodejs.cn/api/buffer.html#buffer_buffers_and_character_encodings)
+`TypedArray` 是视图对象，用于操作 ArrayBuffer。当然，我们也可以直接用 `new Uint8Array()` 创建一个“视图”，然后用 `.buffer` 来访问 `ArrayBuffe`r。而 `Uint8Array` 只是其中的一种 `TypedArray` 类型
 
-**Uint8Array** 数组类型表示一个 8 位无符号的整型数组，创建时内容被初始化为 0，创建完后，可以以对象的方式或使用数组下标索引的方式引用数组中的元素。每一项的最大数值为 255，超过的会减去 255 \* n
+`Uint8Array` 表示一个 8 位无符号的整型数组，创建时内容被初始化为 0。创建完后，可以以对象的方式或使用数组下标索引的方式引用数组中的元素。每一项的最大数值为 255，超过 255 会只读右 8 位的数据（如 256：100 000 000，但 Uint8Array 只有 8 位，且仅存储最右边 8 位，其余都被切除，故为 0）
+
+```javascript
+// 直接创建 ArrayBuffer / TypedArray
+let buf = new ArrayBuffer(10)
+// ArrayBuffer(10) {}
+// [[Int8Array]]: Int8Array(10) [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+// [[Int16Array]]: Int16Array(5) [0, 0, 0, 0, 0]
+// [[Uint8Array]]: Uint8Array(10) [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+let buf1 = new Uint8Array(10)
+// Uint8Array(10) [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+buf1[0] = 1
+// Uint8Array(10) [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+buf1[1] = 254
+// Uint8Array(10) [1, 254, 0, 0, 0, 0, 0, 0, 0, 0]
+buf1[2] = 255
+// Uint8Array(10) [1, 254, 255, 0, 0, 0, 0, 0, 0, 0]
+buf1[3] = 257
+// Uint8Array(10) [1, 254, 255, 1, 0, 0, 0, 0, 0, 0]
+
+// 通过 ArrayBuffer 创建 TypedArray
+let buf = new ArrayBuffer(10) // 创建一个长度为 10 的 buffer
+let uint = new Uint8Array(buf) // 将 buffer 视为一个 8 位无符号整数的序列
+uint[0] = 1 // 手动修改其中一个值
+// uint :
+// Uint8Array(10) [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+// buf :
+// ArrayBuffer(10) {}
+// [[Int8Array]]: Int8Array(10) [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]...
+```
+
+## Blob
+
+可以用构造函数 `Blob` 创建一个 `blob` 对象。blob 的内容由参数数组中给出的值的串联组成。
+
+<!-- Buffer 与字符串之间的转换还有其他的编码格式可选，其他编码格式可以参考 [这里 🚀](http://nodejs.cn/api/buffer.html#buffer_buffers_and_character_encodings)
+
+**Uint8Array** \* n -->
