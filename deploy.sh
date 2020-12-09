@@ -4,7 +4,7 @@
 set -e
 
 # 生成静态文件
-npm run docs:build
+# npm run docs:build
 
 cp README.md docs/.vuepress/dist/
 
