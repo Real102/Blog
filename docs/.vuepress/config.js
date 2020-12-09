@@ -1,4 +1,5 @@
 module.exports = {
+	base: "/Blog/",
 	title: "WolfBerry",
 	description: "WolfBerry's Blob",
 	themeConfig: {
