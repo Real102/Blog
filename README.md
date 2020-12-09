@@ -1,2 +1,3 @@
-# Blob
-WolfBerry's Blob
+# Blog
+
+WolfBerry's Blog
