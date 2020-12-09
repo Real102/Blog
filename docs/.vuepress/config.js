@@ -1,6 +1,7 @@
 module.exports = {
 	base: "/Blog/",
 	title: "WolfBerry",
+	dest: "public",
 	description: "WolfBerry's Blob",
 	themeConfig: {
 		nav: [
