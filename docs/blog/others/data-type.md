@@ -32,7 +32,7 @@ const buf2 = Buffer.alloc(10, 1)
 const buf3 = Buffer.alloc(11, "aGVsbG8gd29ybGQ=", "base64")
 console.log(buf3)
 // <Buffer 68 65 6c 6c 6f 20 77 6f 72 6c 64>
-// buf3。toString()   ==>  hello world
+// buf3.toString()   ==>  hello world
 ```
 
 这里需要注意 `size` 这个参数，如果 `size` 不等于 `byteLength` (即数据长度 👩‍🏫)，会导致 `Buffer` 的裁剪或重复
@@ -142,6 +142,19 @@ console.log(buf)
 // <Buffer 00 00 00 00 00 00 00 00 61 62>
 ```
 
+### buf[index]
+
+除了 `buf.write` 外，还可以直接用下标的方式 `buf[index]` ，直接获取或修改指定下标的数据
+
+```javascript
+let buf = Buffer.from("hello world")
+console.log(buf)
+// <Buffer 68 65 6c 6c 6f 20 77 6f 72 6c 64>
+buf[0] = 69
+console.log(buf.toString())
+// Eello world
+```
+
 ### buf.readUInt8(offset)
 
 `offset`: 偏移量
@@ -205,8 +218,34 @@ uint[0] = 1 // 手动修改其中一个值
 
 ## Blob
 
-可以用构造函数 `Blob` 创建一个 `blob` 对象。blob 的内容由参数数组中给出的值的串联组成。
+Blob 对象表示一个不可变、原始数据的类文件对象。可以用构造函数 `Blob` 创建一个 `blob` 对象，blob 的内容由参数数组中给出的值的串联组成。
+
+```javascript
+// Buffer.from('hello world') => <Buffer 68 65 6c 6c 6f 20 77 6f 72 6c 64>
+let arr = [0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64]
+// 定义一个视图对象dataview
+let buf = new Uint8Array(arr.length)
+let blob
+// 遍历存储数据
+arr.forEach((v, i) => {
+	buf[i] = v
+})
+// 定义一个blob对象
+blob = new Blob([buf])
+// 使用filereader读取blob数据
+let reader = new FileReader()
+reader.readAsText(blob)
+reader.onload = e => {
+	console.log(e.target.result) // hello world
+}
+```
 
 <!-- Buffer 与字符串之间的转换还有其他的编码格式可选，其他编码格式可以参考 [这里 🚀](http://nodejs.cn/api/buffer.html#buffer_buffers_and_character_encodings)
 
 **Uint8Array** \* n -->
+
+## 参考文档
+
+-   [nodeJS](http://nodejs.cn/api/) 🚀
+-   [ArrayBuffer & TypedArray](https://zh.javascript.info/arraybuffer-binary-arrays) 🚀
+-   [Blob](https://developer.mozilla.org/zh-CN/docs/Web/API/Blob) 🚀

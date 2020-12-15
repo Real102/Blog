@@ -217,8 +217,8 @@ private _acceptChunk(data: VSBuffer): void {
 			// 可以参考nodejs api中文文档：http://nodejs.cn/api/buffer.html
 			const secondByte = peekHeader.readUInt8(1);
 			// 将第二字节数据（最大为255）与 0b10000000 做 ‘与’ 的操作，然后右移七位得到一个 ‘标志数字’
-			// secondByte 要转换成16进制再做 & 运算 （toString(16)）
-			// 只要 secondByte 超过127，那么 hasMask 为1， 否则为0
+			// 这个标志数字为mask，也就是 websocket 中的掩码，主要针对安全方面的优化，避免被中间设备攻击
+			// 这一项仅可以在客户端设置，如果在服务端设置了会报错：只有客户端发送的数据才需要掩码处理
 			const hasMask = (secondByte & 0b10000000) >>> 7;
 			const len = (secondByte & 0b01111111);
 			// 手动调整 _state 的数据，使进入下一个逻辑判断
@@ -448,9 +448,8 @@ public write(buffer: VSBuffer): void {
 		header.writeUInt8((buffer.byteLength >>> 8) & 0b11111111, ++offset);
 		header.writeUInt8((buffer.byteLength >>> 0) & 0b11111111, ++offset);
 	}
-	// 这里的 [header, buffer] 这种方式组成了 Blob 格式数据，具体可以查看【参考文档-Blob】
-	// header 可以是 ArrayBuffer、TypedArray、blob、DOMString
-	// Blob(blobParts[, options]) 返回一个新创建的 Blob 对象，其内容由参数中【给定的数组串联组成】
+	// 这里返回的数据时 VSBuffer，但实际上客户端接收到的是 MessageEvent 格式数据，包含其他如：ws来源信息等
+	// 数据都存在 e.data 内，并且 MessageEvent 的格式为 Blob 数据
 	this.socket.write(VSBuffer.concat([header, buffer]));
 }
 ```
@@ -504,5 +503,5 @@ public write(buffer: VSBuffer): void {
 -   [vscode](https://github.com/microsoft/vscode) 🚀
 -   [code-server](https://github.com/cdr/code-server) 🚀
 -   [nodeJS](http://nodejs.cn/api/) 🚀
--   [ArrayBuffer](https://zh.javascript.info/arraybuffer-binary-arrays) 🚀
+-   [ArrayBuffer & TypedArray](https://zh.javascript.info/arraybuffer-binary-arrays) 🚀
 -   [Blob](https://developer.mozilla.org/zh-CN/docs/Web/API/Blob) 🚀

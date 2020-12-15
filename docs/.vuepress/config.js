@@ -5,7 +5,7 @@ module.exports = {
 	themeConfig: {
 		nav: [
 			// 顶部导航配置
-			{ text: "Blob", link: "/blob/" },
+			{ text: "Blog", link: "/blog/" },
 			{ text: "Demo", link: "/demo/" }
 			// {
 			// 	text: 'GitHub',
@@ -19,7 +19,7 @@ module.exports = {
 			"/": {
 				sidebar: {
 					// 侧边栏配置
-					"/blob/": getBlobSideBar(),
+					"/blog/": getBlogSideBar(),
 					"/demo/": getDemoSideBar()
 				}
 			}
@@ -41,7 +41,7 @@ module.exports = {
 	}
 }
 
-function getBlobSideBar() {
+function getBlogSideBar() {
 	// 参考快速引入方法，无需逐个添加
 	// https://github.com/vuejs/vuepress/blob/2fbad2867deaa21240a4e2339e1d63bce7ef20b4/packages/docs/docs/.vuepress/config.js#L140
 	return [
