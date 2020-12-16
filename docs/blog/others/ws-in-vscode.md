@@ -459,7 +459,6 @@ public write(buffer: VSBuffer): void {
 -   修改的源码要确保不能出现错误如： tslint 提示语法错误的代码等
 -   打包的 patch 文件一定要注意，编码是 **`UTF-8`**，且换行符的格式是：**`LF`**（默认是`CRLF`）
 -   如果遇到 patch 失败问题，可以先试试清除服务器的缓存（重新 clone 项目代码），然后再重新执行 `yarn build`
-    <!-- -   `websocket` 数据交互使用的是 **十六进制** 加密方式，可以用十六进制转字符串方法解码，也可以用 `TextDecoder` 解码 -->
 -   注意 vscode 内部同时有 window 环境和 node 环境，要注意使用属性的兼容性，避免报错
 -   运行过程中有时会一直重连，然后突然崩溃就一直连不上，具体什么原因不清楚
 -   `trailing whitespace` 报错是指，代码最后一个字符必须以 ';' 结尾，否则会报错
@@ -471,7 +470,7 @@ public write(buffer: VSBuffer): void {
 -   `vscode` 的 `websocket` 接收数据方法在 `browserSocketFactory.ts` 的 `_socketMessageListener` 方法，参数 `ev` 是 `Blob` 格式内容，并且这里是最先接收到 `code-server` 返回的内容，可以在这里解密
 -   `ipc` 是进程之间的交互方式，
 -   两个 `websocket` 中第一个主要是数据交互，第二个主要是用于心跳检测
--   `buffer.ts` 中定义了一个 `hasBuffer` 变量，用于判断是否有 `Buffer` 对象。（`window`下为`undefined`），然后对数据的格式进行对应的改变。在`node`环境下用`Buffer`，在`window`环境下使用`TextDecoder`
+-   `buffer.ts` 中定义了一个 `hasBuffer` 变量，用于判断是否有 `Buffer` 对象。（浏览器下为`undefined`），然后对数据的格式进行对应的改变。在`node`环境下用`Buffer`，在浏览器环境下使用`TextDecoder`
 
 ## 其他
 
