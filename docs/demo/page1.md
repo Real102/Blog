@@ -6,6 +6,17 @@
 -   因为有抓包工具的存在，可以通过抓包的方式看到 websocket 传输的数据，因此需要在这里增加一层加密
 -   code-server 相当于 vscode 的服务端，当本地修改文件或执行其他操作时，都会产生 vscode 跟 code-server 的数据交互，并且 vscode 会同时在 browser 和 node 环境下运行
 
+```javascript
+git clone https://github.com/microsoft/vscode
+cd vscode
+git checkout ${vscodeVersion} // 我们目前用的是 1.39.2 版本，对应 code-server 是 2.1692-vsc1.39.2
+yarn	// 安装依赖
+export OUT=/path/to/output/build	// 指定输出路径
+yarn build ${vscodeVersion} ${codeServerVersion}	// 执行打包，第一个是 vscode 版本，这里写1.39.2，第二个是打包后 code-server 的名字，这里可以随意填写
+node /path/to/output/build/out/vs/server/main.js	// 执行node命令，就可以跑起来了
+yarn binary ${vscodeVersion} ${codeServerVersion}	// 生成二进制文件
+```
+
 ## 开胃菜
 
 ### Buffer 、 ArrayBuffer 、 TypedArray 、 Blob

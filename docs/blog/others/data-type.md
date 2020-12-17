@@ -2,7 +2,7 @@
 
 ## 前言
 
-Buffer 、 ArrayBuffer 、 Blob
+### Buffer 、 ArrayBuffer 、 TypedArray 、 Blob
 
 -   `Buffer` 是 `node` 环境下的缓冲器，用于表示固定长度的字节序列（`Buffer.from() | Buffer.alloc()`），可用 `toString()` 方法转成字符串，也可以指定编码格式
 -   `ArrayBuffer` 是 `window` 环境下的二进制/字节数组，是对固定长度的连续内存空间的引用（`new ArrayBuffer(length)`），可用 [TextDecoder](https://developer.mozilla.org/zh-CN/docs/Web/API/TextDecoder) 🚀 构造函数解析成字符串
@@ -181,9 +181,22 @@ console.log(buf.readUInt8(1))
 -   它正好占用了内存中的那么多空间
 -   要访问单个字节，需要另一个“视图”对象（`TypedArray`），而不是 buffer[index]
 
-### Uint8Array ( TypedArray )
+## TypedArray
 
-`TypedArray` 是视图对象，用于操作 ArrayBuffer。当然，我们也可以直接用 `new Uint8Array()` 创建一个“视图”，然后用 `.buffer` 来访问 `ArrayBuffe`r。而 `Uint8Array` 只是其中的一种 `TypedArray` 类型
+`TypedArray` 称为类型化数组，用于描述 `ArrayBuffer` 的一个类数组视图（`Uint8Array、Uint32Array`），是操作 `ArrayBuffer` 的主要途径。但事实上，没有名为 `TypedArray` 的全局属性，也没有一个名为 `TypedArray` 的构造函数。不能直接运行 `new TypedArray()`。当然，我们可以用 `new Uint8Array()` 直接创建一个“视图”，然后也可以用 `.buffer` 来访问 `ArrayBuffer`。而 `Uint8Array` 只是其中的一种 `TypedArray` 类型
+
+```javascript
+let buf = new ArrayBuffer(10)
+// ArrayBuffer(10) {}
+// [[Int8Array]]: Int8Array(10) [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+// [[Int16Array]]: Int16Array(5) [0, 0, 0, 0, 0]
+// [[Uint8Array]]: Uint8Array(10) [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+let uint = new Uint8Array(buf)
+// 同 let uint = new Uint8Array(10)
+// Uint8Array(10) [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+```
+
+### Uint8Array
 
 `Uint8Array` 表示一个 8 位无符号的整型数组，创建时内容被初始化为 0。创建完后，可以以对象的方式或使用数组下标索引的方式引用数组中的元素。每一项的最大数值为 255，超过 255 会只读右 8 位的数据（如 256：100 000 000，但 Uint8Array 只有 8 位，且仅存储最右边 8 位，其余都被切除，故为 0）
 
@@ -205,7 +218,7 @@ buf1[2] = 255
 buf1[3] = 257
 // Uint8Array(10) [1, 254, 255, 1, 0, 0, 0, 0, 0, 0]
 
-// 通过 ArrayBuffer 创建 TypedArray
+// 通过 ArrayBuffer 来创建 TypedArray
 let buf = new ArrayBuffer(10) // 创建一个长度为 10 的 buffer
 let uint = new Uint8Array(buf) // 将 buffer 视为一个 8 位无符号整数的序列
 uint[0] = 1 // 手动修改其中一个值
@@ -214,6 +227,24 @@ uint[0] = 1 // 手动修改其中一个值
 // buf :
 // ArrayBuffer(10) {}
 // [[Int8Array]]: Int8Array(10) [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]...
+```
+
+#### Uint8Array.from
+
+从一个数组或可迭代的对象创建一个新的 `Uint8Array` 数组
+
+```javascript
+Uint8Array.from([1, 2, 3, 4, 5])
+// Uint8Array(5) [1, 2, 3, 4, 5]
+```
+
+#### Uint8Array.of
+
+创建一个具有可变数量参数的新类型数组
+
+```javascript
+Uint8Array.of(1, 2, 3, 4, 5, 0xa)
+// Uint8Array(5) [1, 2, 3, 4, 5, 10]
 ```
 
 ## Blob
@@ -247,5 +278,6 @@ reader.onload = e => {
 ## 参考文档
 
 -   [nodeJS](http://nodejs.cn/api/) 🚀
--   [ArrayBuffer & TypedArray](https://zh.javascript.info/arraybuffer-binary-arrays) 🚀
--   [Blob](https://developer.mozilla.org/zh-CN/docs/Web/API/Blob) 🚀
+-   [ArrayBuffer MDN 文档](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) 🚀
+-   [TypedArray MDN 文档](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/TypedArray) 🚀
+-   [Blob MDN 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Blob) 🚀
