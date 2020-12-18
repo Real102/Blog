@@ -102,8 +102,8 @@ function getDemoSideBar() {
 			sidebarDepth: 1, // 可选的, 默认值是 1
 			children: [
 				["", "介绍"],
-				["page1", "vscode 中 websocket 的研究"],
-				["page2", "数据类型与转换"]
+				["page1", "测试1"],
+				["page2", "测试2"]
 			]
 		}
 	]

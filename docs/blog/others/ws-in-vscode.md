@@ -4,7 +4,7 @@
 
 因项目要求，要对 `vscode` 的 `websocket` 传输的数据进行加密。由于对 `ts` 和 `node` 不够熟悉，在撞破了几个脑袋之后，记录下自己的一些理解。
 
-`vscode` 是基于 `typescript` 和 `node` (桌面版：`electron`)，在看下面的内容前，建议提前了解一下 `Buffer、ArrayBuffer、TypedArray` 以及位运算等，会更加容易理解
+`vscode` 是基于 `typescript` 和 `node` (桌面版：`electron`)，在看下面的内容前，建议提前了解一下 [Buffer、ArrayBuffer、TypedArray](https://real102.github.io/Blog/blog/others/data-type.html) 🚀 以及位运算等，会更加容易理解
 
 ## 打包流程
 
