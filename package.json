@@ -6,6 +6,9 @@
 		"deploy": "npm run docs:build && bash deploy.sh"
 	},
 	"devDependencies": {
+		"node-sass": "^5.0.0",
+		"sass": "^1.32.0",
+		"sass-loader": "^10.1.0",
 		"vuepress": "^1.7.1"
 	}
 }
