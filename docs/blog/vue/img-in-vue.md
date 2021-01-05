@@ -95,6 +95,12 @@ chainWebpack: config => {
 }
 ```
 
+### 在 vuepress 中使用图片
+
+<!-- TODO: -->
+
+[参考链接](https://vuepress.vuejs.org/zh/guide/assets.html#%E5%9F%BA%E7%A1%80%E8%B7%AF%E5%BE%84)
+
 ## 参考文档
 
 [vue-cli 处理静态资源 🚀](https://cli.vuejs.org/zh/guide/html-and-static-assets.html#%E5%A4%84%E7%90%86%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90)
