@@ -6,7 +6,8 @@ module.exports = {
 		nav: [
 			// 顶部导航配置
 			{ text: "Blog", link: "/blog/" },
-			{ text: "Demo", link: "/demo/" }
+			{ text: "Demo", link: "/demo/" },
+			{ text: "Diary", link: "/diary/" }
 			// {
 			// 	text: 'GitHub',
 			// 	link: 'https://github.com/Real102',
@@ -20,7 +21,8 @@ module.exports = {
 				sidebar: {
 					// 侧边栏配置
 					"/blog/": getBlogSideBar(),
-					"/demo/": getDemoSideBar()
+					"/demo/": getDemoSideBar(),
+					"/diary/": getDiarySideBar()
 				}
 			}
 		},
@@ -35,7 +37,8 @@ module.exports = {
 	configureWebpack: {
 		resolve: {
 			alias: {
-				"@imgs": "./public/img"
+				// TODO: 好像不生效？需要测试
+				"@": "/.vuepress"
 			}
 		}
 	}
@@ -108,3 +111,13 @@ function getDemoSideBar() {
 		}
 	]
 }
+
+function getDiarySideBar() {
+	return [
+		{
+			title: "Diary"
+		}
+	]
+}
+
+// .vuepress/components/ 下的 *.vue 文件都会被注册成全局的异步组件
