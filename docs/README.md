@@ -3,7 +3,7 @@ home: true
 heroText: Hero 标题
 tagline: Hero 副标题
 actionText: 快速上手 →
-actionLink: /guide/
+actionLink: /blog/
 # sidebarDepth: 1
 sidebar: false
 features:
