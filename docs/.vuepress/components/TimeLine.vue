@@ -18,7 +18,9 @@
 				</div>
 			</div>
 		</div>
-		<!-- <img src="@imgs/avatar.png" alt="" /> -->
+		<div class="adc" @click="handlePlay">
+			<audio src="../public/audio/bg.mp3" autoplay loop class="audio"></audio>
+		</div>
 	</div>
 </template>
 <script>
@@ -26,7 +28,10 @@ import { diary } from "./diary.js"
 export default {
 	name: "TimeLine",
 	data() {
-		return {}
+		return {
+			audio: undefined,
+			audioStatus: false
+		}
 	},
 	computed: {
 		diaryList() {
@@ -43,7 +48,11 @@ export default {
 			return temp
 		}
 	},
-	mounted() {},
+	mounted() {
+		this.audio = document.getElementsByClassName("audio")[0]
+		// Chrome不能自动播放，只能出此下策
+		document.addEventListener("click", this._handlePlay)
+	},
 	methods: {
 		changMonth(str) {
 			let arr = [
@@ -66,6 +75,33 @@ export default {
 				map.set(item.key, item.value)
 			})
 			return map.get(str)
+		},
+		handlePlay() {
+			if (!this.audioStatus) {
+				this.audioStatus = true
+				this.audio.play()
+				this.handleRotate(true)
+			} else {
+				this.audioStatus = false
+				this.audio.pause()
+				this.handleRotate(false)
+			}
+		},
+		_handlePlay() {
+			this.audio.play()
+			this.audioStatus = true
+			this.handleRotate(true)
+			// 这里简单区分是document触发还是其他方式触发
+			// 只需要一次即可。点击后注销事件监听
+			document.removeEventListener("click", this._handlePlay)
+		},
+		handleRotate(status) {
+			let adc = document.getElementsByClassName("adc")[0]
+			if (status) {
+				adc.classList.add("adcrotate")
+			} else {
+				adc.classList.remove("adcrotate")
+			}
 		}
 	}
 }
@@ -165,7 +201,7 @@ export default {
 			background-size: 100% 100%;
 			// 变化的中心点
 			background-position: center;
-			z-index: 100;
+			z-index: 10;
 			cursor: pointer;
 			// hover中心缩放动画
 			transition: all 0.2s linear;
@@ -249,6 +285,29 @@ export default {
 					left: -100%;
 				}
 			}
+		}
+	}
+	.adc {
+		position: fixed;
+		top: 100px;
+		right: 30px;
+		width: 40px;
+		height: 40px;
+		border: 2px solid #ffffff;
+		border-radius: 40px;
+		background: url("../public/img/avatar.png") no-repeat;
+		background-size: 100% 100%;
+		transform: rotate(0deg);
+	}
+	.adcrotate {
+		animation: _rotate 5s linear infinite;
+	}
+	@keyframes _rotate {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
 		}
 	}
 }
