@@ -11,32 +11,63 @@
 				</div>
 				<span class="more" v-if="item.imgList.length !== 0">DETAILS</span>
 			</div>
-			<div class="right"></div>
+			<div class="right">
+				<div class="date">
+					<span class="month">{{ item.month }} {{ item.day }}</span>
+					<span class="year">{{ item.year }}</span>
+				</div>
+			</div>
 		</div>
+		<!-- <img src="@imgs/avatar.png" alt="" /> -->
 	</div>
 </template>
 <script>
+import { diary } from "./diary.js"
 export default {
 	name: "TimeLine",
 	data() {
-		return {
-			diaryList: [
-				{
-					id: 1,
-					title: "宵夜时间到了",
-					content: "召唤师峡谷见召唤师峡谷见召唤师峡谷见召唤师峡谷见",
-					imgList: ["/img/avatar.png", "/img/avatar.png", "/img/avatar.png", "/img/avatar.png", "/img/avatar.png"]
-				},
-				{
-					id: 2,
-					title: "宵夜时间到了",
-					content: "召唤师峡谷见召唤师峡谷见召唤师峡谷见召唤师峡谷见",
-					imgList: ["/img/avatar.png", "/img/avatar.png", "/img/avatar.png", "/img/avatar.png", "/img/avatar.png"]
-				}
-			]
+		return {}
+	},
+	computed: {
+		diaryList() {
+			let temp = []
+			diary.forEach(item => {
+				let arr = item.date.split(".")
+				item.year = arr[0]
+				// 切割后的是字符串，得转成数字
+				item.month = this.changMonth(parseInt(arr[1]))
+				item.day = arr[2]
+				// 这里顺便做个倒序
+				temp.unshift(item)
+			})
+			return temp
 		}
 	},
-	mounted() {}
+	mounted() {},
+	methods: {
+		changMonth(str) {
+			let arr = [
+				{ key: 1, value: "Jan" },
+				{ key: 2, value: "Feb" },
+				{ key: 3, value: "Mar" },
+				{ key: 4, value: "Apr" },
+				{ key: 5, value: "May" },
+				{ key: 6, value: "June" },
+				{ key: 7, value: "July" },
+				{ key: 8, value: "Aug" },
+				{ key: 9, value: "Sept" },
+				{ key: 10, value: "Oct" },
+				{ key: 11, value: "Nov" },
+				{ key: 12, value: "Dec" }
+			]
+			// 单纯的想用一下map，可能还没找到使用的正确姿势
+			let map = new Map()
+			arr.forEach(item => {
+				map.set(item.key, item.value)
+			})
+			return map.get(str)
+		}
+	}
 }
 </script>
 <style lang="scss">
@@ -141,6 +172,21 @@ export default {
 			&:hover {
 				background-size: 130% 130%;
 			}
+			.date {
+				position: absolute;
+				right: -100%;
+				top: 0;
+				span {
+					display: block;
+					font-size: 14px;
+					font-weight: 600;
+					line-height: 20px;
+					// 两边对齐css
+					// text-align: justify;
+					// text-align-last: justify;
+					// text-justify: inter-ideograph;
+				}
+			}
 		}
 		&:nth-child(odd) {
 			// 第2n的容器样式
@@ -199,6 +245,9 @@ export default {
 			}
 			.right {
 				left: -20px;
+				.date {
+					left: -100%;
+				}
 			}
 		}
 	}

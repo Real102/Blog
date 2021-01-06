@@ -38,9 +38,17 @@ module.exports = {
 		resolve: {
 			alias: {
 				// TODO: 好像不生效？需要测试
-				"@": "/.vuepress"
+				"@imgs": "/public/img"
 			}
 		}
+	},
+	chainWebpack: config => {
+		config.module
+			.rule("images")
+			.use("url-loader")
+			.loader("url-loader")
+			.tap(options => Object.assign(options, { limit: 10240 }))
+			.end()
 	}
 }
 
