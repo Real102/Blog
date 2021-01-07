@@ -1,3 +1,4 @@
+const path = require("path")
 module.exports = {
 	base: "/Blog/",
 	title: "WolfBerry",
@@ -37,8 +38,8 @@ module.exports = {
 	configureWebpack: {
 		resolve: {
 			alias: {
-				// TODO: 好像不生效？需要测试
-				"@imgs": "/public/img"
+				// 需要用path.resolve，直接用相对路径或绝对路径会解析失败
+				"@imgs": path.resolve(__dirname, "./public/img")
 			}
 		}
 	},
