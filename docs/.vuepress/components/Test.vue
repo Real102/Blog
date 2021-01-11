@@ -1,7 +1,7 @@
 <template>
 	<div class="test">
 		<img src="/img/avatar.png" alt="" />
-		<img src="../public/img/avatar.png" alt="" />
+		<img src="../public/img/avatar.jpg" alt="" />
 		<img :src="$withBase('/img/avatar.png')" alt="" />
 		<img src="~@imgs/avatar.jpg" alt="" />
 		<div class="bgc bgc1"></div>
@@ -19,7 +19,7 @@ export default {
 	height: 200px;
 }
 .bgc1 {
-	background: url("/img/avatar.png") no-repeat;
+	background: url("/img/avatar.jpg") no-repeat;
 	background-size: 100% 100%;
 }
 .bgc2 {
