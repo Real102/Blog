@@ -3,6 +3,7 @@
 		<img src="/img/avatar.png" alt="" />
 		<img src="../public/img/avatar.png" alt="" />
 		<img :src="$withBase('/img/avatar.png')" alt="" />
+		<img src="~@imgs/avatar.jpg" alt="" />
 		<div class="bgc bgc1"></div>
 		<div class="bgc bgc2"></div>
 	</div>
