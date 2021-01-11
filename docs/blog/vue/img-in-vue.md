@@ -101,13 +101,15 @@ chainWebpack: config => {
 
 ```html
 <!-- Tips： -->
+
 <!-- 一个 base 路径一旦被设置，它将会自动地作为前缀插入到 .vuepress/config.js 中所有以 / 开始的资源路径中。 -->
+<!-- 但这里需要慎用，实际上发布到 GitHub 时图片的地址是错的，且没有经过 webpack 处理❌ -->
 <img src="/img/avatar.png" alt="" />
-<!-- 以相对路径方式引用图片 -->
+<!-- 以相对路径方式引用图片，会经过 webpack 的处理✅ -->
 <img src="../public/img/avatar.png" alt="" />
-<!-- VuePress 提供的一个内置的 helper $withBase（它被注入到了 Vue 的原型上），可以帮助你生成正确的路径 -->
+<!-- VuePress 提供的一个内置的 helper $withBase（它被注入到了 Vue 的原型上），可以帮助你生成正确的路径，但会经过 webpack 的处理✅ -->
 <img :src="$withBase('/img/avatar.png')" alt="" />
-<!-- 配置 alias，然后以 ~ 前缀来明确地指出这是一个 webpack 的模块请求（同上） -->
+<!-- 配置 alias，然后以 ~ 前缀来明确地指出这是一个 webpack 的模块请求（同上），会经过 webpack 的处理✅ -->
 <img src="~@imgs/avatar.png" alt="" />
 ```
 
