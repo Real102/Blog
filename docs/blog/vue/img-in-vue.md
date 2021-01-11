@@ -97,10 +97,21 @@ chainWebpack: config => {
 
 ### 在 vuepress 中使用图片
 
-<!-- TODO: -->
+这里主要介绍 md 中组件的使用图片方式，md 文档可以直接使用链接或相对路径即可
 
-[参考链接](https://vuepress.vuejs.org/zh/guide/assets.html#%E5%9F%BA%E7%A1%80%E8%B7%AF%E5%BE%84)
+```html
+<!-- Tips： -->
+<!-- 一个 base 路径一旦被设置，它将会自动地作为前缀插入到 .vuepress/config.js 中所有以 / 开始的资源路径中。 -->
+<img src="/img/avatar.png" alt="" />
+<!-- 以相对路径方式引用图片 -->
+<img src="../public/img/avatar.png" alt="" />
+<!-- VuePress 提供的一个内置的 helper $withBase（它被注入到了 Vue 的原型上），可以帮助你生成正确的路径 -->
+<img :src="$withBase('/img/avatar.png')" alt="" />
+<!-- 配置 alias，然后以 ~ 前缀来明确地指出这是一个 webpack 的模块请求（同上） -->
+<img src="~@imgs/avatar.png" alt="" />
+```
 
 ## 参考文档
 
-[vue-cli 处理静态资源 🚀](https://cli.vuejs.org/zh/guide/html-and-static-assets.html#%E5%A4%84%E7%90%86%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90)
+[vue-cli 处理静态资源 🚀](https://cli.vuejs.org/zh/guide/html-and-static-assets.html#%E5%A4%84%E7%90%86%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90)  
+[vuepress 静态资源 🚀](https://vuepress.vuejs.org/zh/guide/assets.html#%E5%9F%BA%E7%A1%80%E8%B7%AF%E5%BE%84)
