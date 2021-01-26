@@ -3,6 +3,7 @@ module.exports = {
 	base: "/Blog/",
 	title: "WolfBerry",
 	description: "WolfBerry's Blob",
+	port: "9999",
 	themeConfig: {
 		nav: [
 			// 顶部导航配置
@@ -67,7 +68,10 @@ function getBlogSideBar() {
 			title: "HTML",
 			collapsable: false,
 			sidebarDepth: 1,
-			children: [["html/meta", "常用的meta标签"]]
+			children: [
+				["html/meta", "常用的meta标签"],
+				["html/unicode", "字符编码"]
+			]
 		},
 		{
 			title: "Javascript",
@@ -83,7 +87,19 @@ function getBlogSideBar() {
 			title: "Vue",
 			collapsable: false,
 			sidebarDepth: 1,
-			children: [["vue/img-in-vue", "在vue项目中引入图片"]]
+			children: [
+				["vue/img-in-vue", "在vue项目中引入图片"],
+				["vue/vue-env", "vue 环境变量的设置与使用"]
+			]
+		},
+		{
+			title: "Webpack",
+			collapsable: false,
+			sidebarDepth: 1,
+			children: [
+				["webpack/require-context", "require.context 的妙用"],
+				["webpack/lodash", "lodash 按需引入及打包优化"]
+			]
 		},
 		{
 			title: "移动端",
