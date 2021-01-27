@@ -27,3 +27,5 @@ git push origin master -f
 # git push -f git@github.com:Real102/test_blob.git master:gh-pages
 
 cd -
+
+# 需要安装Ubuntu？
