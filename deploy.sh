@@ -9,7 +9,7 @@ set -e
 cp README.md docs/.vuepress/dist/
 
 # 进入生成的文件夹
-cd docs/.vuepress/dist
+cd ./docs/.vuepress/dist
 
 # 如果是发布到自定义域名
 # echo 'www.example.com' > CNAME
@@ -17,7 +17,7 @@ cd docs/.vuepress/dist
 git init
 git add -A
 git commit -m 'deploy'
-git remote add origin https://github.com/Real102/Blob.git
+git remote add origin https://github.com/Real102/Blog.git
 git push origin master -f
 
 # 如果发布到 https://<USERNAME>.github.io

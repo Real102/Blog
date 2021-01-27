@@ -2,7 +2,7 @@ const path = require("path")
 module.exports = {
 	base: "/Blog/",
 	title: "WolfBerry",
-	description: "WolfBerry's Blob",
+	description: "WolfBerry's Blog",
 	port: "9999",
 	themeConfig: {
 		nav: [
