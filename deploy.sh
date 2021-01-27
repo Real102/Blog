@@ -14,7 +14,11 @@ cd ./docs/.vuepress/dist
 # 如果是发布到自定义域名
 # echo 'www.example.com' > CNAME
 
-# git init
+git init
+# 未知原因：初始化后会自动删除用户信息，全局设置的也无效，这里手动添加后成功
+git config user.name = "WolfberryzZ"
+git config user.email = "906368017@qq.com"
+
 git add -A
 git commit -m 'deploy'
 git remote add origin https://github.com/Real102/Blog.git
