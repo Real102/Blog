@@ -31,3 +31,5 @@ git push origin master -f
 # git push -f git@github.com:Real102/test_blob.git master:gh-pages
 
 cd -
+
+# 需要安装 Ubuntu 或其他 Linux 系统，否则无法使用 .sh 文件？
