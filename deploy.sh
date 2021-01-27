@@ -14,7 +14,7 @@ cd ./docs/.vuepress/dist
 # 如果是发布到自定义域名
 # echo 'www.example.com' > CNAME
 
-git init
+# git init
 git add -A
 git commit -m 'deploy'
 git remote add origin https://github.com/Real102/Blog.git
@@ -27,5 +27,3 @@ git push origin master -f
 # git push -f git@github.com:Real102/test_blob.git master:gh-pages
 
 cd -
-
-# 需要安装Ubuntu？
