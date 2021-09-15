@@ -1,16 +1,3 @@
 {
-	"no-hard-tabs": false,
-	"list-marker-space": {
-		"ol_multi": 1,
-		"ul_multi": 3,
-		"ol_single": 1,
-		"ul_single": 3
-	},
-	"ul-indent": {
-		"indent": 4
-	},
-	"line-length": false,
-	"no-inline-html": false,
-	"first-line-h1": false,
-	"no-space-in-emphasis": false
+  "line-length": false
 }
