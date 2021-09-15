@@ -4,11 +4,12 @@ module.exports = {
 	title: "WolfBerry",
 	description: "WolfBerry's Blog",
 	port: "9999",
+	open: true,
 	themeConfig: {
 		nav: [
 			// 顶部导航配置
 			{ text: "Blog", link: "/blog/" },
-			{ text: "Demo", link: "/demo/" },
+			{ text: "Ugly", link: "/ugly/" },
 			{ text: "Diary", link: "/diary/" }
 			// {
 			// 	text: 'GitHub',
@@ -23,7 +24,7 @@ module.exports = {
 				sidebar: {
 					// 侧边栏配置
 					"/blog/": getBlogSideBar(),
-					"/demo/": getDemoSideBar(),
+					"/ugly/": getUglySideBar(),
 					"/diary/": getDiarySideBar()
 				}
 			}
@@ -122,16 +123,16 @@ function getBlogSideBar() {
 	]
 }
 
-function getDemoSideBar() {
+function getUglySideBar() {
 	return [
 		{
-			title: "Demo", // 必要的
+			title: "Ugly", // 必要的
 			collapsable: false, // 可选的, 默认值是 true,
 			sidebarDepth: 1, // 可选的, 默认值是 1
 			children: [
 				["", "介绍"],
-				["page1", "测试1"],
-				["page2", "测试2"]
+				["2021.8", "2021.8"],
+				["2021.9", "2021.9"]
 			]
 		}
 	]
