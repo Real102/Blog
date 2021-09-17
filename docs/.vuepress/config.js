@@ -4,7 +4,7 @@ module.exports = {
   title: "WolfBerry",
   description: "WolfBerry's Blog",
   port: "9999",
-  open: true,
+  openPage: true,
   themeConfig: {
     nav: [
       // 顶部导航配置
