@@ -16,8 +16,8 @@ cd ./docs/.vuepress/dist
 
 git init
 # 未知原因：初始化后会自动删除用户信息，全局设置的也无效，这里手动添加后成功
-git config user.name = "wolfBerry"
-git config user.email = "906368017@qq.com"
+git config user.name "wolfBerry"
+git config user.email "906368017@qq.com"
 
 git add -A
 git commit -m 'deploy'
@@ -33,3 +33,4 @@ git push origin master -f
 cd -
 
 # 需要安装 Ubuntu 或其他 Linux 系统，否则无法使用 .sh 文件
+# 文件换行符必须为LF模式
