@@ -81,7 +81,8 @@ function getBlogSideBar() {
       children: [
         ["javascript/get-image-size", "限制上传图片的尺寸"],
         ["javascript/preload-image", "图片预加载"],
-        ["javascript/lazyload", "图片懒加载的两种实现方式"]
+        ["javascript/lazyload", "图片懒加载的两种实现方式"],
+        ["javascript/encryption", "常用的加密方案及相关实现代码"]
       ]
     },
     {
