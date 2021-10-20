@@ -22,6 +22,6 @@
 
 ## 快捷入口
 
--   [手机端预览 vue 项目](https://real102.github.io/Blog/blog/mobile/preview-on-mobile.html)
--   [在 vue 项目中引入图片](https://real102.github.io/Blog/blog/vue/img-in-vue.html)
--   [数据类型与转换](https://real102.github.io/Blog/blog/others/data-type.html)
+- [手机端预览 vue 项目](https://real102.github.io/Blog/blog/mobile/preview-on-mobile.html)
+- [在 vue 项目中引入图片](https://real102.github.io/Blog/blog/vue/img-in-vue.html)
+- [数据类型与转换](https://real102.github.io/Blog/blog/others/data-type.html)
