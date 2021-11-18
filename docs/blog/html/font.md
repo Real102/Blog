@@ -73,11 +73,11 @@ node .\font.js
 
 ## 优化
 
-但是！这样还是不够的，实际项目中我们也不可能手动把所有文字都写出来放到 `${text}` 中去，那么就需要有一个读取文件的功能，从文件中读取其中包含的所有字符。
+但是！这样还是不够的，实际项目中我们也不可能手动把所有文字都写出来放到 `${text}` 中去。接下来搞一下读取文件的功能，读取其中包含的所有字符。
 
 这个时候，我们就需要借助一下 `node` 的 `fs` 模块。码一下代码，看看输出的内容。（记得要 `set` 一下 😎）
 
-这里分享一个插件：`Code Runner`，可以直接运行代码片段。
+这里分享一个插件：[Code Runner](https://marketplace.visualstudio.com/items?itemName=formulahendry.code-runner&ssr=false#review-details)，可以直接运行代码片段。
 
 ```javascript
 const fs = require("fs")
@@ -87,7 +87,7 @@ fs.readFile("./test.html", (err, data) => {
     console.log(err)
   }
   const mySet = new Set(data.toString()) // 去重的目的
-  console.log(mySet)
+  console.log(Array.from(mySet).join(""))
 })
 ```
 
@@ -103,7 +103,43 @@ fs.readFile("./test.html", (err, data) => {
 
 读取这一块已经完成了，但还需要再进一步优化，毕竟项目中不仅仅这么一个文件，所以我们需要增加一个“扫描”文件夹的方法
 
+```javascript
+const fs = require("fs")
+
+const scanFolder = dir => {
+  var result = []
+  const dirRes = fs.readdirSync(dir) // 读取文件夹，返回一个文件（夹）list
+  dirRes.forEach(list => {
+    let path = dir + "/" + list
+    const statRes = fs.statSync(path) // 读取文件详情，判断是否为文件夹
+    if (statRes.isDirectory()) {
+      result = result.concat(scanFolder(path))
+    } else {
+      result = result.concat(scanFile(path))
+    }
+  })
+  const mySet = new Set(result)
+  return Array.from(mySet)
+}
+
+const scanFile = path => {
+  let res = fs.readFileSync(path)
+  const mySet = new Set(res.toString())
+  return Array.from(mySet)
+}
+
+console.log(scanFolder("./src/views").join(""))
+```
+
+运行结果这里就不展示了，各位看官可以自行操作一下。这里用的都是 `fs` 的同步方法，稍微注意下校验即可。
+
+整个流程已经完成了，可以通过自动扫描文件生成一个字符集，然后再用 `fontmin` 的 `glyph` 方法“抽离”出来并生成新的字体文件
+
+（Tips：还可以配置一下 `npm` 命令呦 😄）
+
 ## 完整代码
+
+以下源码来自：<https://zhuanlan.zhihu.com/p/48318293>
 
 ```javascript
 const fs = require("fs")
@@ -174,6 +210,10 @@ scanFolder("src/views", (n, results) => {
 
 ## 思考
 
-- 只能用于静态网站，也就是指页面的内容都是在前端写死的（缺陷）
-- 如果是动态网站，那么动态返回的那部分内容将不会改变字体（缺陷）
-- 考虑性能代价情况下，将常用的 `3500` 或 `7000` 汉字单独打包成一个字体文件并使用，尽可能保证常用字符的正常显示（措施）
+可能已经有看官发现，这个方案只是针对本地（项目下）的文件进行扫描，对于从后端返回来的数据是没办法实现的，就比如用户名...
+
+我认为的一个稍微好一点的解决方案，便是将常用的 `3000` 或 `7000` 汉字以及字母、数字、符号等生成一个字体文件，其余的使用降级方案
+
+如果还不行，那就跟产品 Battle Battle
+
+<div style="display:flex;justify-content:center"><span style="transform: rotateY(180deg)">🤺</span> &nbsp;  &nbsp;  &nbsp; <span>🤺</span></div>
