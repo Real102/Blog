@@ -29,3 +29,4 @@
 - vue3 下全局引入问题（provide、globalProperties 等）
 - lazyload 源码
 - pre-commit 无法处理“warn”的代码，尝试用 husty 看看是否一样
+- 尾调用优化及实现
