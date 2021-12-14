@@ -10,6 +10,7 @@ module.exports = {
       // 顶部导航配置
       { text: "Blog", link: "/blog/" },
       { text: "Ugly", link: "/ugly/" },
+      { text: "Gold", link: "/gold/" },
       { text: "Diary", link: "/diary/" }
       // {
       // 	text: 'GitHub',
@@ -25,6 +26,7 @@ module.exports = {
           // 侧边栏配置
           "/blog/": getBlogSideBar(),
           "/ugly/": getUglySideBar(),
+          "/gold/": getGoldSideBar(),
           "/diary/": getDiarySideBar()
         }
       }
@@ -139,6 +141,23 @@ function getUglySideBar() {
         ["2021.11", "2021.11"],
         ["2021.12", "2021.12"]
       ]
+    }
+  ]
+}
+
+function getGoldSideBar() {
+  return [
+    {
+      title: "掘", // 必要的
+      collapsable: false, // 可选的, 默认值是 true,
+      sidebarDepth: 1, // 可选的, 默认值是 1
+      children: [["", "介绍"]]
+    },
+    {
+      title: "【资源篇】",
+      collapsable: false,
+      sidebarDepth: 1,
+      children: [["resource/fe-views", "摸鱼必看的前端知识点"]]
     }
   ]
 }
