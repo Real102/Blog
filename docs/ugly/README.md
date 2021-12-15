@@ -25,8 +25,10 @@
 - START_LOCATION 初始路由，即路由开始的地址
 - webpack-merge
 - webpack-chain
+- webpack-dev-server 原理、hmr 原理
 - vue3 下的异步组件与打包
 - vue3 下全局引入问题（provide、globalProperties 等）
 - lazyload 源码
 - pre-commit 无法处理“warn”的代码，尝试用 husty 看看是否一样
 - 尾调用优化及实现
+- 测试 splitchunk
