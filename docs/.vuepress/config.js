@@ -158,6 +158,12 @@ function getGoldSideBar() {
       collapsable: false,
       sidebarDepth: 1,
       children: [["resource/fe-views", "摸鱼必看的前端知识点"]]
+    },
+    {
+      title: "【实用篇】",
+      collapsable: false,
+      sidebarDepth: 1,
+      children: [["practical/splitChunk", "实操探究splitChunks拆包规则"]]
     }
   ]
 }
