@@ -31,10 +31,9 @@
 1. [计算白屏时间](https://fex.baidu.com/blog/2014/05/build-performance-monitor-in-7-days/)\*
 2. [理解 DOMContentLoaded、onLoaded、onReady](https://www.cnblogs.com/caizhenbo/p/6679478.html)
 3. [页面声明周期、async/defer](https://github.com/fi3ework/blog/issues/3)
-4. [DocumentFragment 文档碎片](https://juejin.im/post/6844903477181857805)
-5. [图片懒加载 IntersectionObserver](https://juejin.im/post/6844903874302574599)
-6. [动画 RAF（requestAnimationFrame）](https://segmentfault.com/a/1190000004039023)
-7. [队头阻塞、并发连接、域名分片](https://juejin.im/post/6857287743966281736#heading-52)
+4. [图片懒加载 IntersectionObserver](https://juejin.im/post/6844903874302574599)
+5. [动画 RAF（requestAnimationFrame）](https://segmentfault.com/a/1190000004039023)
+6. [队头阻塞、并发连接、域名分片](https://juejin.im/post/6857287743966281736#heading-52)
 
 ### js 异步加载
 
@@ -182,3 +181,5 @@
 ---
 
 以前准备面试看过的一些精品文章，会持续更新~
+
+我是枸哥，可以叫我杞爷

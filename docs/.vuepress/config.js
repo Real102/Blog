@@ -163,7 +163,7 @@ function getGoldSideBar() {
       title: "【实用篇】",
       collapsable: false,
       sidebarDepth: 1,
-      children: [["practical/splitChunk", "实操探究splitChunks拆包规则"]]
+      children: [["practical/splitChunk", "splitChunks 与 import 方式的化学反应"]]
     }
   ]
 }
