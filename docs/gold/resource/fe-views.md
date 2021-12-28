@@ -17,6 +17,7 @@
 13. [js 自定义事件](https://zhuanlan.zhihu.com/p/108447200)
 14. [跨域解决方案](https://segmentfault.com/a/1190000011145364)
 15. [try...catch 异常捕获](https://juejin.im/post/6844903745273217038)
+16. [JS 中的闭包是什么](https://zhuanlan.zhihu.com/p/22486908)【2021.12.28 更】
 
 ### es6 系列
 
