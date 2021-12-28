@@ -155,20 +155,23 @@ const scanFolder = (dir, done) => {
     }
     let i = 0
     ;(function iter() {
+      // 这里的立即函数触发了闭包，使results的值一直保存
       let file = list[i++]
       if (!file) {
+        // iterator遍历，file不存在即为执行完成状态
         return done(null, results)
       }
       file = dir + "/" + file
       fs.stat(file, (err, stat) => {
         if (stat && stat.isDirectory()) {
           scanFolder(file, (err, res) => {
+            // 重新调用方法，获取子目录下的目录结构
             results = results.concat(res)
             iter()
           })
         } else {
           results.push(file)
-          iter()
+          iter() // 执行下一步
         }
       })
     })()
