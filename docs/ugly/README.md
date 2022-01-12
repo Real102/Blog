@@ -19,6 +19,7 @@
 
 - <span style="color:grey">element-ui 换肤功能</span>
 - <span style="color:grey">发布订阅模式</span>
+- <span style="color: grey">ResizeObserver</span>
 - <span style="color: #3eaf7c">render</span>
 - functional
 - vm.\$slots
