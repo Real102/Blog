@@ -94,7 +94,8 @@ function getBlogSideBar() {
       sidebarDepth: 1,
       children: [
         ["vue/img-in-vue", "在vue项目中引入图片"],
-        ["vue/vue-env", "vue 环境变量的设置与使用"]
+        ["vue/vue-env", "vue 环境变量的设置与使用"],
+        ["vue/decorator", "Vue Property Decorator"]
       ]
     },
     {
