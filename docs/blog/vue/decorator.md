@@ -9,6 +9,7 @@
 - `@Model`
 - `@ModelSync`
 - `@Watch`
+- `Computed`
 - `@Provide`
 - `@Inject`
 - `@ProvideReactive`
@@ -246,6 +247,33 @@ export default {
 }
 ```
 
+## Computed
+
+`computed` 选项已经被替代为 `getter`、`setter`
+
+```javascript
+import Vue from "vue"
+import Component from "vue-class-component"
+
+@Component
+export default class HelloWorld extends Vue {
+  firstName = "John"
+  lastName = "Doe"
+
+  // Declared as computed property getter
+  get name() {
+    return this.firstName + " " + this.lastName
+  }
+
+  // Declared as computed property setter
+  set name(value) {
+    const splitted = value.split(" ")
+    this.firstName = splitted[0]
+    this.lastName = splitted[1] || ""
+  }
+}
+```
+
 ## @Provide、@Inject
 
 语法：`@Provide(key?: string | symbol) / @Inject(options?: { from?: InjectKey, default?: any } | InjectKey)`，先看代码
@@ -417,4 +445,225 @@ export class MyComp extends Vue {
 }
 ```
 
-总结一下：装逼利器，不用白不用
+---
+
+新增 `vuex-module-decorators`，文档及示例地址为：['vuex-module-decorators](https://championswimmer.in/vuex-module-decorators/)
+
+- `State`
+- `@Mutation`
+- `Getter`
+- `@Action`
+- `@MutationAction`
+
+## vuex-module-decorators 起步
+
+使用 `vuex-module-decorators` 之后，可以使用动态 `Modules`，`store/index` 下的写法也稍微有点不一样
+
+```javascript
+// normal
+import user from './module/user'
+import Test from './module/test'
+
+export default new Vuex.Store({
+  modules: {
+    user,
+    Test
+  }
+})
+
+// Dynamic Modules
+import { IAppState } from './modules/app'
+import { IUserState } from './modules/user'
+
+export interface IRootState {
+  app: IAppState
+  user: IUserState
+}
+
+// Declare empty store first, dynamically register all modules later.
+export default new Vuex.Store<IRootState>({})
+
+```
+
+## State
+
+`vuex-module-decorators` 取消了 `State` 选项，跟 `vue3` 一样，直接定义写变量即可。
+
+```javascript
+import { Module, VuexModule } from "vuex-module-decorators"
+
+@Module
+export default class Vehicle extends VuexModule {
+  wheels = 2
+}
+```
+
+对应的源代码为：
+
+```javascript
+export default {
+  state: {
+    wheels: 2
+  }
+}
+```
+
+## @Mutation
+
+当使用 `Mutation` 装饰器时，使用 `this` 修改 `State` 数据。同时，在 `Mutation` 中避免使用**异步函数**以及**箭头函数**
+
+```javascript
+import { Module, VuexModule, Mutation } from "vuex-module-decorators"
+
+@Module
+export default class Vehicle extends VuexModule {
+  wheels = 2
+
+  @Mutation
+  puncture(n: number) {
+    this.wheels = this.wheels - n
+  }
+}
+```
+
+对应的源代码为：
+
+```javascript
+export default {
+  state: {
+    wheels: 2
+  },
+  mutations: {
+    puncture: (state, payload) => {
+      state.wheels = state.wheels - payload
+    }
+  }
+}
+```
+
+## Getter
+
+此时的 `Getter` 不再是 `store` 的一个选项，而是成为了 `es6` 的 `getter` 函数
+
+```javascript
+import { Module, VuexModule } from "vuex-module-decorators"
+
+@Module
+export default class Vehicle extends VuexModule {
+  wheels = 2
+  get axles() {
+    return this.wheels / 2
+  }
+}
+```
+
+对应的源代码为：
+
+```javascript
+export default {
+  state: {
+    wheels: 2
+  },
+  getters: {
+    axles: state => state.wheels / 2
+  }
+}
+```
+
+## @Action
+
+如果需要在 `Action` 执行长时间运行的任务，建议将其定义为异步函数（`async-await`）。如果不这么做的话，`vuex-module-decorators` 也会将你的函数包装成一个 `Promise` 函数并等待它；同时也不要将其定义为箭头函数，因为需要重新绑定 `Actions`
+
+这里稍微注意一下，在 `Action` 中需要修改 `state` 的话，还是需要通过提交 `Mutation`。而现在需要使用 `this.context.commit()` 提交
+
+```javascript
+import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators"
+import { get } from "request"
+
+@Module
+export default class Vehicle extends VuexModule {
+  wheels = 2
+
+  @Mutation
+  addWheel(n: number) {
+    this.wheels = this.wheels + n
+  }
+
+  @Action
+  async fetchNewWheels(wheelStore: string) {
+    const wheels = await get(wheelStore)
+    this.context.commit("addWheel", wheels)
+  }
+}
+```
+
+对应的源代码为：
+
+```javascript
+const request = require("request")
+export default {
+  state: {
+    wheels: 2
+  },
+  mutations: {
+    addWheel: (state, payload) => {
+      state.wheels = state.wheels + payload
+    }
+  },
+  actions: {
+    fetchNewWheels: async (context, payload) => {
+      const wheels = await request.get(payload)
+      context.commit("addWheel", wheels)
+    }
+  }
+}
+```
+
+## @MutationActions
+
+如果当前有一个异步操作，并且获得的结果需要提交到 `state`，那么可以使用 `@MutationActions`。需要注意，当其返回的是 `undefined` 时，不会提交到 `state`
+
+```javascript
+import {VuexModule, Module, MutationAction} from 'vuex-module-decorators'
+
+@Module
+class TypicodeModule extends VuexModule {
+  posts: Post[] = []
+  users: User[] = []
+
+  @MutationAction
+  async function updatePosts() {
+    const posts = await axios.get('https://jsonplaceholder.typicode.com/posts')
+
+    return { posts }
+  }
+}
+```
+
+对应的源代码为：
+
+```javascript
+const typicodeModule = {
+  state: {
+    posts: [],
+    users: []
+  },
+  mutations: {
+    updatePosts: function(state, posts) {
+      state.posts = posts
+    }
+  },
+  actions: {
+    updatePosts: async function(context) {
+      const posts = await axios.get("https://jsonplaceholder.typicode.com/posts")
+      context.commit("updatePosts", posts)
+    }
+  }
+}
+```
+
+## 结尾
+
+目前 `vuex-module-decorator` 不支持动态模块和嵌套模块混合使用，只能使用其中一种
+
+`vuex-module-decorator`、`vuex-class`、`vue-class-component` 三者熟练使用起来可以省掉很多代码，真的是谁用谁舒服，并且可以让代码看起来更 “**高级**” 一些哈！！！
