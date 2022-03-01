@@ -447,6 +447,8 @@ export class MyComp extends Vue {
 
 ---
 
+## vuex-module-decorators 起步
+
 新增 `vuex-module-decorators`，文档及示例地址为：['vuex-module-decorators](https://championswimmer.in/vuex-module-decorators/)
 
 - `State`
@@ -454,36 +456,7 @@ export class MyComp extends Vue {
 - `Getter`
 - `@Action`
 - `@MutationAction`
-
-## vuex-module-decorators 起步
-
-使用 `vuex-module-decorators` 之后，可以使用动态 `Modules`，`store/index` 下的写法也稍微有点不一样
-
-```javascript
-// normal
-import user from './module/user'
-import Test from './module/test'
-
-export default new Vuex.Store({
-  modules: {
-    user,
-    Test
-  }
-})
-
-// Dynamic Modules
-import { IAppState } from './modules/app'
-import { IUserState } from './modules/user'
-
-export interface IRootState {
-  app: IAppState
-  user: IUserState
-}
-
-// Declare empty store first, dynamically register all modules later.
-export default new Vuex.Store<IRootState>({})
-
-```
+- `Dynamic Module`
 
 ## State
 
@@ -658,6 +631,65 @@ const typicodeModule = {
       const posts = await axios.get("https://jsonplaceholder.typicode.com/posts")
       context.commit("updatePosts", posts)
     }
+  }
+}
+```
+
+## Dynamic Module
+
+使用 `vuex-module-decorators` 之后，可以使用动态 `Modules`。动态 `Modules`在注册时，跟一般的 `vuex` 不一样，在 `@store/index.ts` 中，只需要 `new` 一个空的 `Vuex.Store({})`
+
+```javascript
+// Dynamic Modules
+import Vue from "vue"
+import Vuex from "vuex"
+
+Vue.use(Vuex)
+// Declare empty store first, dynamically register all modules later.
+export default new Vuex.Store({})
+```
+
+在具体的 `module` 下，需要注意：
+
+- 指定 `module` 为动态 `module`
+- 必须要指定 `name`
+- 需要通过 `getModule` 将模块 `export` 出去
+
+```javascript
+import { Module, VuexModule, getModule } from "vuex-module-decorators"
+import store from "@/store"
+
+@Module({
+  namespaced: true,
+  dynamic: true,
+  store,
+  name: "User"
+})
+export default class User extends VuexModule {
+  userInfo = {
+    name: "wolfBerry",
+    phone: "18819490370",
+    email: "906368017@qq.com"
+  }
+}
+
+export const UserModule = getModule(User)
+```
+
+最后就可以在页面上，通过 `import` 引入后再使用
+
+```javascript
+import { UserModule } from "@/store/module/user"
+import { TestModule } from "@/store/module/test"
+
+@Component
+export default class Home extends Vue {
+  created() {
+    console.log(UserModule.userInfo)
+  }
+
+  handleChange() {
+    TestModule.SET_COUNT(2)
   }
 }
 ```
