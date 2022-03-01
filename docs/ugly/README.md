@@ -6,11 +6,11 @@
 - <span style="color:grey">vue3 官网</span>
 - <span style="color:grey">vue-element-admin 官网</span>
 - <span style="color:grey">vuex-module-decorator</span>
+- <span style="color:grey">vue-class-component</span>
 - <span style="color:#3eaf7c">webpack 最新版官网</span>
 - <span style="color:#3eaf7c">ES6 官网</span>
 - <span style="color:#3eaf7c">element-ui 源码</span>
 - <span style="color:#3eaf7c">typescript</span>
-- <span style="color:#3eaf7c">vue-class-component</span>
 - vue2 源码
 - vue3 源码
 - node 文档
