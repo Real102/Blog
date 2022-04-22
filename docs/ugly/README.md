@@ -7,15 +7,18 @@
 - <span style="color:grey">vue-element-admin 官网</span>
 - <span style="color:grey">vuex-module-decorator</span>
 - <span style="color:grey">vue-class-component</span>
+- <span style="color:grey">ES6 官网</span>
 - <span style="color:#3eaf7c">webpack 最新版官网</span>
-- <span style="color:#3eaf7c">ES6 官网</span>
 - <span style="color:#3eaf7c">element-ui 源码</span>
 - <span style="color:#3eaf7c">typescript</span>
+- <span style="color:#3eaf7c">深入理解 TypeScript</span>
 - vue2 源码
 - vue3 源码
 - node 文档
 - express
 - koa
+- pinia
+- vite
 
 ## NEXT
 
@@ -37,3 +40,13 @@
 - 尾调用优化及实现
 - 技术深度？
 - 装饰器实现原理
+- ts 代码动态引入问题与代码切割问题
+- tsconfig.json 各配置项理解
+- shims 文件理解
+- 使用第三方插件时的 types 管理
+- pnpm
+- selenium
+- Playwright
+- rrweb -- Record and replay the web
+- svelte -- 全新的构建用户界面的方法
+- Puppeteer -- Node 库，提供高级 API 来通过 DevTools 协议控制 Chrome

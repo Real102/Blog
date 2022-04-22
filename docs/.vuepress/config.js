@@ -12,12 +12,6 @@ module.exports = {
       { text: "Ugly", link: "/ugly/" },
       { text: "Gold", link: "/gold/" },
       { text: "Diary", link: "/diary/" }
-      // {
-      // 	text: 'GitHub',
-      // 	link: 'https://github.com/Real102',
-      // 	target: '_blank',
-      // 	rel: 'noopener noreferrer',
-      // },
     ],
     locales: {
       // 为什么是locales？区分语言？如果是单语言情况下，需要怎么设置侧边栏？
@@ -108,6 +102,12 @@ function getBlogSideBar() {
       ]
     },
     {
+      title: "工具/插件",
+      collapsable: false,
+      sidebarDepth: 1,
+      children: [["plugin/rrweb", "rrweb -- 录制并回放web界面用户操作"]]
+    },
+    {
       title: "移动端",
       collapsable: false,
       sidebarDepth: 1,
@@ -143,7 +143,8 @@ function getUglySideBar() {
         ["2021.12", "2021.12"],
         ["2022.1", "2022.1"],
         ["2022.2", "2022.2"],
-        ["2022.3", "2022.3"]
+        ["2022.3", "2022.3"],
+        ["2022.4", "2022.4"]
       ]
     }
   ]
@@ -158,18 +159,22 @@ function getGoldSideBar() {
       children: [["", "介绍"]]
     },
     {
-      title: "【资源篇】",
-      collapsable: false,
-      sidebarDepth: 1,
-      children: [["resource/fe-views", "摸鱼必看的前端知识点"]]
-    },
-    {
-      title: "【实用篇】",
+      title: "【已发】",
       collapsable: false,
       sidebarDepth: 1,
       children: [
-        ["practical/splitChunk", "splitChunks 与 import 方式的化学反应"],
-        ["practical/worker", "在 vue 中使用 web worker"]
+        ["prev/fe-views", "摸鱼必看的前端知识点"],
+        ["prev/splitChunk", "splitChunks 与 import 方式的化学反应"]
+      ]
+    },
+    {
+      title: "【待发】",
+      collapsable: false,
+      sidebarDepth: 1,
+      children: [
+        ["next/worker", "在 vue 中使用 web worker"],
+        ["next/browser", "挖掘谷歌浏览器小工具"],
+        ["next/software", "挖掘好用的PC软件"]
       ]
     }
   ]
