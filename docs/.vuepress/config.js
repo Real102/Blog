@@ -105,7 +105,10 @@ function getBlogSideBar() {
       title: "工具/插件",
       collapsable: false,
       sidebarDepth: 1,
-      children: [["plugin/rrweb", "rrweb -- 录制并回放web界面用户操作"]]
+      children: [
+        ["plugin/rrweb", "rrweb -- 录制并回放web界面用户操作"],
+        ["plugin/puppeteer", "Puppeteer"]
+      ]
     },
     {
       title: "移动端",
