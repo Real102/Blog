@@ -83,6 +83,12 @@ function getBlogSideBar() {
       ]
     },
     {
+      title: "Typescript",
+      collapsable: false,
+      sidebarDepth: 1,
+      children: [["typescript/practice", "TS练习题"]]
+    },
+    {
       title: "Vue",
       collapsable: false,
       sidebarDepth: 1,
@@ -147,7 +153,8 @@ function getUglySideBar() {
         ["2022.1", "2022.1"],
         ["2022.2", "2022.2"],
         ["2022.3", "2022.3"],
-        ["2022.4", "2022.4"]
+        ["2022.4", "2022.4"],
+        ["2022.5", "2022.5"]
       ]
     }
   ]
