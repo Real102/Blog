@@ -19,6 +19,7 @@
 - koa
 - pinia
 - vite
+- icestark -- 微前端解决方案
 
 ## NEXT
 
