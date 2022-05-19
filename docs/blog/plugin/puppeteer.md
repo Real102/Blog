@@ -133,7 +133,7 @@ Methods
 - `page.waitForRequest(urlOrPredicate[, options])`
 - `page.waitForResponse(urlOrPredicate[, options])`
 - `page.waitForSelector(selector[, options])`
-- `page.waitForXPath(xpath[, options])` -- 等待 xPath 对应的元素出现
+- `page.waitForXPath(xpath[, options])` -- 等待 `xPath` 对应的元素出现
 - `page.workers()` -- 返回与页面关联的 `webworkers`
 
 ## Worker
@@ -147,7 +147,7 @@ Methods
 
 ## Accessibility
 
-- `accessibility.snapshot([options])`
+- `accessibility.snapshot([options])` -- 截屏
 
 [源文档](https://zhaoqize.github.io/puppeteer-api-zh_CN/#?product=Puppeteer&version=v13.6.0&show=api-class-accessibility)
 
@@ -172,14 +172,14 @@ Methods
 
 ## Touchscreen
 
-- `touchscreen.tap(x, y)` -- 触发 touchstart、touchend 事件
+- `touchscreen.tap(x, y)` -- 触发 `touchstart`、`touchend` 事件
 
 [源文档](https://zhaoqize.github.io/puppeteer-api-zh_CN/#?product=Puppeteer&version=v13.6.0&show=api-class-touchscreen)
 
 ## Tracing
 
 - `tracing.start(options)` -- 跟踪
-- `tracing.stop()`
+- `tracing.stop()` -- 停止跟踪
 
 [源文档](https://zhaoqize.github.io/puppeteer-api-zh_CN/#?product=Puppeteer&version=v13.6.0&show=api-class-tracing)
 
@@ -187,7 +187,7 @@ Methods
 
 - `dialog.accept([promptText])` -- 提示中输入的文本
 - `dialog.defaultValue()` -- 如果对话框出现提示，返回默认值，否则返回空字符串
-- `dialog.dismiss()`
+- `dialog.dismiss()` -- 返回一个 `promise`
 - `dialog.message()` -- 显示在对话框中的信息
 - `dialog.type()` -- 对话框类型
 
@@ -203,32 +203,32 @@ Methods
 
 ## Frame
 
-- `frame.$(selector)`
-- `frame.$$(selector)`
-- `frame.$$eval(selector, pageFunction[, ...args])`
-- `frame.$eval(selector, pageFunction[, ...args])`
-- `frame.\$x(expression)`
+- `frame.$(selector)` -- 查询指定选择器
+- `frame.$$(selector)` -- 执行 `querySelectorAll` 方法
+- `frame.$$eval(selector, pageFunction[, ...args])` -- 将 `querySelectorAll` 选择的数据遍历传给 `pageFunction` 的第一个参数
+- `frame.$eval(selector, pageFunction[, ...args])` -- 同 `1`、`3`
+- `frame.\$x(expression)` -- 执行 `XPath` 表达式
 - `frame.addScriptTag(options)`
 - `frame.addStyleTag(options)`
-- `frame.childFrames()`
-- `frame.click(selector[, options])`
-- `frame.content()`
-- `frame.evaluate(pageFunction, ...args)`
-- `frame.evaluateHandle(pageFunction, ...args)`
-- `frame.executionContext()`
-- `frame.focus(selector)`
+- `frame.childFrames()` -- 子 `frame`
+- `frame.click(selector[, options])` -- 选择元素，滚动到可视区域内，并触发 `page.mouse` 点击事件
+- `frame.content()` -- 获取框架的所有内容
+- `frame.evaluate(pageFunction, ...args)` -- 相当于先执行 `pageFunction` 后再返回
+- `frame.evaluateHandle(pageFunction, ...args)` -- 返回页面对象
+- `frame.executionContext()` -- 返回解析为框架的默认执行上下文的 `promise`
+- `frame.focus(selector)` -- 传入元素并使获得焦点
 - `frame.goto(url, options)`
-- `frame.hover(selector)`
-- `frame.isDetached()`
+- `frame.hover(selector)` -- 同 `focus`
+- `frame.isDetached()` -- 不被加载？加载失败返回 `true`，否则返回 `false`
 - `frame.name()`
 - `frame.parentFrame()`
-- `frame.select(selector, ...values)`
+- `frame.select(selector, ...values)` -- 指定下拉框及值，一旦选择了会触发 `change` 和 `input` 事件
 - `frame.setContent(html)`
-- `frame.tap(selector)`
-- `frame.title()`
-- `frame.type(selector, text[, options])`
-- `frame.url()`
-- `frame.waitFor(selectorOrFunctionOrTimeout[, options[, ...args]])`
+- `frame.tap(selector)` -- 滚动到可视区域
+- `frame.title()` -- 获取 `title`
+- `frame.type(selector, text[, options])` -- 输入内容
+- `frame.url()` -- 获取 `url`
+- `frame.waitFor(selectorOrFunctionOrTimeout[, options[, ...args]])` -- 等待 `selector` 或延迟 `n` 毫秒
 - `frame.waitForFunction(pageFunction[, options[, ...args]])`
 - `frame.waitForNavigation(options)`
 - `frame.waitForSelector(selector[, options])`
@@ -247,12 +247,13 @@ Methods
 
 ## JSHandle
 
-- `jsHandle.asElement()`
-- `jsHandle.dispose()`
-- `jsHandle.executionContext()`
-- `jsHandle.getProperties()`
-- `jsHandle.getProperty(propertyName)`
-- `jsHandle.jsonValue()`
+- `jsHandle` -- 可以使用 `page.$eval()`，`page.evaluate()`，`page.evaluateHandle()` 方法创建
+- `jsHandle.asElement()` -- 如果对象句柄是 `ElementHandle` 的一个实例，则返回该句柄本身或 `null`
+- `jsHandle.dispose()` -- 停止引用
+- `jsHandle.executionContext()` -- 返回所属的执行上下文
+- `jsHandle.getProperties()` -- 包含属性名称作为键的映射和属性值的 `JSHandle` 实例
+- `jsHandle.getProperty(propertyName)` -- 从引用的对象中获取单个属性
+- `jsHandle.jsonValue()` -- 返回对象的 `JSON` 表示
 
 [源文档](https://zhaoqize.github.io/puppeteer-api-zh_CN/#?product=Puppeteer&version=v13.6.0&show=api-class-JSHandle)
 
@@ -264,66 +265,67 @@ Methods
 - `elementHandle.$$eval(selector, pageFunction, ...args)`
 - `elementHandle.$x(expression)`
 - `elementHandle.asElement()`
-- `elementHandle.boundingBox()`
-- `elementHandle.boxModel()`
+- `elementHandle.boundingBox()` -- 返回元素的边界框
+- `elementHandle.boxModel()` -- 返回盒模型
 - `elementHandle.click([options])`
 - `elementHandle.contentFrame()`
 - `elementHandle.dispose()`
 - `elementHandle.executionContext()`
 - `elementHandle.focus()`
-- `elementHandle.getProperties()`
-- `elementHandle.getProperty(propertyName)`
+- `elementHandle.getProperties()` -- 该方法返回一个包含属性名称作为键的映射和属性值的 JSHandle 实例
+- `elementHandle.getProperty(propertyName)` -- 获取属性
 - `elementHandle.hover()`
-- `elementHandle.isIntersectingViewport()`
+- `elementHandle.isIntersectingViewport()` -- 是否处于可视区域内
 - `elementHandle.jsonValue()`
 - `elementHandle.press(key[, options])`
-- `elementHandle.screenshot([options])`
+- `elementHandle.screenshot([options])` -- 将元素滚动到视图中，然后再截图
 - `elementHandle.tap()`
 - `elementHandle.toString()`
-- `elementHandle.type(text[, options])`
-- `elementHandle.uploadFile(...filePaths)`
+- `elementHandle.type(text[, options])` -- 输入内容
+- `elementHandle.uploadFile(...filePaths)` -- 上传文件
 
 [源文档](https://zhaoqize.github.io/puppeteer-api-zh_CN/#?product=Puppeteer&version=v13.6.0&show=api-class-ElementHandle)
 
 ## Request
 
-- `request.abort([errorCode])`
-- `request.continue([overrides])`
+- `request.abort([errorCode])` -- 中断请求，需要使用 `page.setRequestInterception` 开启拦截
+- `request.continue([overrides])` -- 覆写选项并继续请求
 - `request.failure()`
-- `request.frame()`
-- `request.headers()`
-- `request.isNavigationRequest()`
-- `request.method()`
-- `request.postData()`
-- `request.redirectChain()`
-- `request.resourceType()`
-- `request.respond(response)`
-- `request.response()`
-- `request.url()`
+- `request.frame()` -- 返回发起请求的 `frame`
+- `request.headers()` -- 请求的 `http` 头对象
+- `request.isNavigationRequest()` -- 这个请求是否正在驱动框架在导航
+- `request.method()` -- 请求方法
+- `request.postData()` -- 请求提交的数据
+- `request.redirectChain()` -- 获取资源的请求链
+- `request.resourceType()` -- 请求资源类型
+- `request.respond(response)` -- 完成请求后返回的响应内容
+- `request.response()` -- 响应对象
+- `request.url()` -- 获取请求的 `url`
 
 [源文档](https://zhaoqize.github.io/puppeteer-api-zh_CN/#?product=Puppeteer&version=v13.6.0&show=api-class-Request)
 
 ## Response
 
-- `response.buffer()`
-- `response.frame()`
-- `response.fromCache()`
-- `response.fromServiceWorker()`
-- `response.headers()`
-- `response.json()`
-- `response.ok()`
-- `response.remoteAddress()`
-- `response.request()`
-- `response.securityDetails()`
-- `response.status()`
-- `response.statusText()`
-- `response.text()`
-- `response.url()`
+- `response.buffer()` -- 如果返回内容的是二进制流
+- `response.frame()` -- 响应请求的 `frame`
+- `response.fromCache()` -- 如果来自缓存，返回 `true`
+- `response.fromServiceWorker()` -- 如果来自 `service worker`，返回 `true`
+- `response.headers()` -- 响应头
+- `response.json()` -- 响应体，且可被 `JSON.parse` 解析
+- `response.ok()` -- 响应是否成功
+- `response.remoteAddress()` -- 远程服务器 `ip` 和端口
+- `response.request()` -- 返回匹配的 `request` 对象
+- `response.securityDetails()` -- 安全细节
+- `response.status()` -- 状态码
+- `response.statusText()` -- 状态文本
+- `response.text()` -- 响应内容
+- `response.url()` -- 响应 `url`
 
 [源文档](https://zhaoqize.github.io/puppeteer-api-zh_CN/#?product=Puppeteer&version=v13.6.0&show=api-class-Response)
 
 ## SecurityDetails
 
+- `securityDetails` - 通过安全链接收到响应时的安全性详细信息
 - `securityDetails.issuer()`
 - `securityDetails.protocol()`
 - `securityDetails.subjectName()`
@@ -334,20 +336,21 @@ Methods
 
 ## Target
 
-- `target.browser()`
+- `target.browser()` -- 目标所属的浏览器
 - `target.browserContext()`
-- `target.createCDPSession()`
+- `target.createCDPSession()` -- 创建一个 `chrome devtools` 协议回话至目标
 - `target.opener()`
-- `target.page()`
-- `target.type()`
-- `target.url()`
+- `target.page()` -- 返回是否为 `page` 或 `background_page` 类型
+- `target.type()` -- 类型
+- `target.url()` -- 链接
 
 [源文档](https://zhaoqize.github.io/puppeteer-api-zh_CN/#?product=Puppeteer&version=v13.6.0&show=api-class-Target)
 
 ## CDPSession
 
-- `cdpSession.detach()`
-- `cdpSession.send(method[, params])`
+- `cdpSession` -- 用于与 chrome devtools 协议的原生通信
+- `cdpSession.detach()` -- 分离、断开连接
+- `cdpSession.send(method[, params])` -- 发送信息
 
 [源文档](https://zhaoqize.github.io/puppeteer-api-zh_CN/#?product=Puppeteer&version=v13.6.0&show=api-class-CDPSession)
 
