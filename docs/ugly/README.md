@@ -12,7 +12,8 @@
 - <span style="color:#3eaf7c">element-ui 源码</span>
 - <span style="color:#3eaf7c">typescript</span>
 - <span style="color:#3eaf7c">深入理解 TypeScript</span>
-- vue2 源码
+- <span style="color:#3eaf7c">vue2 源码</span>
+- <span style="color:#3eaf7c">vuex 源码</span>
 - vue3 源码
 - node 文档
 - express
@@ -25,8 +26,10 @@
 
 - <span style="color:grey">element-ui 换肤功能</span>
 - <span style="color:grey">发布订阅模式</span>
-- <span style="color: grey">ResizeObserver</span>
-- <span style="color: #3eaf7c">render</span>
+- <span style="color:grey">ResizeObserver</span>
+- <span style="color:#3eaf7c">render</span>
+- <span style="color:#3eaf7c">tsconfig.json 各配置项理解</span>
+- <span style="color:#3eaf7c">lazyload 源码</span>
 - functional
 - vm.\$slots
 - vm.\$scopedSlots
@@ -36,13 +39,10 @@
 - webpack-dev-server 原理、hmr 原理
 - vue3 下的异步组件与打包
 - vue3 下全局引入问题（provide、globalProperties 等）
-- lazyload 源码
 - pre-commit 无法处理“warn”的代码，尝试用 husty 看看是否一样
 - 尾调用优化及实现
-- 技术深度？
 - 装饰器实现原理
 - ts 代码动态引入问题与代码切割问题
-- tsconfig.json 各配置项理解
 - shims 文件理解
 - 使用第三方插件时的 types 管理
 - pnpm
@@ -52,3 +52,4 @@
 - svelte -- 全新的构建用户界面的方法
 - Puppeteer -- Node 库，提供高级 API 来通过 DevTools 协议控制 Chrome
 - Puppeteer 生成 PDF、截图等实践
+- 技术深度？
