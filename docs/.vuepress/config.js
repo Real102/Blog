@@ -68,7 +68,8 @@ function getBlogSideBar() {
       children: [
         ["html/meta", "常用的meta标签"],
         ["html/unicode", "字符编码"],
-        ["html/font", "【字体压缩】淦，以后不用怕字体文件了"]
+        ["html/font", "【字体压缩】淦，以后不用怕字体文件了"],
+        ["html/grid", "理解 Flex 布局与 Grid 布局及其区别"]
       ]
     },
     {
