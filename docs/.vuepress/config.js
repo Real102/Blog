@@ -68,8 +68,7 @@ function getBlogSideBar() {
       children: [
         ["html/meta", "常用的meta标签"],
         ["html/unicode", "字符编码"],
-        ["html/font", "【字体压缩】淦，以后不用怕字体文件了"],
-        ["html/grid", "理解 Flex 布局与 Grid 布局及其区别"]
+        ["html/font", "【字体压缩】淦，以后不用怕字体文件了"]
       ]
     },
     {
@@ -87,7 +86,10 @@ function getBlogSideBar() {
       title: "Typescript",
       collapsable: false,
       sidebarDepth: 1,
-      children: [["typescript/practice", "TS练习题"]]
+      children: [
+        ["typescript/practice", "TS练习题"],
+        ["typescript/extends", "TS 中的 extends 关键字"]
+      ]
     },
     {
       title: "Vue",
