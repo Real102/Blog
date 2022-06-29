@@ -88,7 +88,8 @@ function getBlogSideBar() {
       sidebarDepth: 1,
       children: [
         ["typescript/practice", "TS练习题"],
-        ["typescript/extends", "TS 中的 extends 关键字"]
+        ["typescript/extends", "TS 中的 extends 关键字"],
+        ["typescript/built-in", "TS 常用内置类型"]
       ]
     },
     {
@@ -134,7 +135,8 @@ function getBlogSideBar() {
         ["others/vscode-for-web", "搭建 web 版 vs code"],
         ["others/ws-in-vscode", "研究vscode中的websocket"],
         ["others/format-phone", "手机号输入框的格式化显示"],
-        ["others/data-type", "数据类型与转换"]
+        ["others/data-type", "数据类型与转换"],
+        ["others/onlineTime", "用户在线时长统计方案思考"]
       ]
     }
   ]
@@ -187,7 +189,8 @@ function getGoldSideBar() {
       children: [
         ["next/worker", "在 vue 中使用 web worker"],
         ["next/browser", "挖掘谷歌浏览器小工具"],
-        ["next/software", "挖掘好用的PC软件"]
+        ["next/software", "挖掘好用的PC软件"],
+        ["next/plugins", "挖掘好用的前端插件"]
       ]
     }
   ]
