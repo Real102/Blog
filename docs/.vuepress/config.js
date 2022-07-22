@@ -131,12 +131,13 @@ function getBlogSideBar() {
       collapsable: false,
       sidebarDepth: 1,
       children: [
+        ["others/onlineTime", "用户在线时长统计方案思考"],
+        ["others/quickapp", "快应用的填坑日志"],
         ["others/nvm", "使用 nvm 来管理 npm"],
         ["others/vscode-for-web", "搭建 web 版 vs code"],
         ["others/ws-in-vscode", "研究vscode中的websocket"],
         ["others/format-phone", "手机号输入框的格式化显示"],
-        ["others/data-type", "数据类型与转换"],
-        ["others/onlineTime", "用户在线时长统计方案思考"]
+        ["others/data-type", "数据类型与转换"]
       ]
     }
   ]

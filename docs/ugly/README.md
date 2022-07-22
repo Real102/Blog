@@ -52,4 +52,5 @@
 - svelte -- 全新的构建用户界面的方法
 - Puppeteer -- Node 库，提供高级 API 来通过 DevTools 协议控制 Chrome
 - Puppeteer 生成 PDF、截图等实践
+- svg路径绘制
 - 技术深度？
