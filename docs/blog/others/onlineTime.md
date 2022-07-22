@@ -100,21 +100,29 @@ document.addEventListener("visibilitychange", () => {
 
 - `sendBeacon`
 
-埋点提交通常会使用 `ajax`，但需要考虑到一点：当页面关闭时，相当于完成了一个访问周期，这时需要将本地的访问时长提交到后端。如果是通过 `ajax` 提交，在页面关闭的同时，`ajax` 的请求也会被中断，可以考虑使用 [sendBeacon](https://developer.mozilla.org/zh-CN/docs/Web/API/Navigator/sendBeacon)即便浏览器关闭也可以正常将数据提交到后端
+  埋点提交通常会使用 `ajax`，但需要考虑到一点：当页面关闭时，相当于完成了一个访问周期，这时需要将本地的访问时长提交到后端。如果是通过 `ajax` 提交，在页面关闭的同时，`ajax` 的请求也会被中断，可以考虑使用 [sendBeacon](https://developer.mozilla.org/zh-CN/docs/Web/API/Navigator/sendBeacon)即便浏览器关闭也可以正常将数据提交到后端
 
 - `1*1` 空白 `gif` 图
 
-空白 `gif` 图提交埋点也是一个比较好的方案，但对于关闭浏览器是否会中断请求的问题，参考网上的说法是[部分兼容](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/87#issuecomment-516857900)（**没有实测过**）具体的优势可以查看 [Github 文档](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/87)
+  空白 `gif` 图提交埋点也是一个比较好的方案，但对于关闭浏览器是否会中断请求的问题，参考网上的说法是[部分兼容](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/87#issuecomment-516857900)（**没有实测过**）具体的优势可以查看 [Github 文档](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/87)
 
 - `websocket`
 
-如果埋点提交较频繁且埋点数量较多时，可以考虑使用 [websocket](https://www.ruanyifeng.com/blog/2017/05/websocket.html)
+  如果埋点提交较频繁且埋点数量较多时，可以考虑使用 [websocket](https://www.ruanyifeng.com/blog/2017/05/websocket.html)
 
 ## 结论
 
 总的来说，如果需求侧不需要分析每个页面的访问时长，那么方案一会更适合一些；而方案二的优势在于埋点数据更加详细，缺陷也就是并发的问题（ `localstorage` 缓存或 `websocket` 可以一定程度解决）
 
 以上两种方案都会存在一些误差，不能够准确地统计真正的在线时长，所以，我们能做的也只是尽可能的缩小误差。
+
+## 参考文档
+
+- [unload、beforeUnload 兼容性问题](https://developer.mozilla.org/zh-CN/docs/Web/API/Navigator/sendBeacon#%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8_unload_%E5%92%8C_beforeunload)
+- [can i use](https://caniuse.com/?search=visibilitychange)
+- [sendBeacon](https://developer.mozilla.org/zh-CN/docs/Web/API/Navigator/sendBeacon)
+- [空白 gif 图提交埋点](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/87)
+- [websocket](https://www.ruanyifeng.com/blog/2017/05/websocket.html)
 
 ## 写在最后
 
