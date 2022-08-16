@@ -22,7 +22,15 @@
 ### 初步实现
 
 ```html
-<input type="tel" ref="tel" v-model="bPhone" @input="handlePhoneInput" placeholder="请输入您的手机号码" @blur="validPhone" maxlength="13" />
+<input
+  type="tel"
+  ref="tel"
+  v-model="bPhone"
+  @input="handlePhoneInput"
+  placeholder="请输入您的手机号码"
+  @blur="validPhone"
+  maxlength="13"
+/>
 <!-- tips: -->
 <!-- 这里 v-model 使用的是 bPhone，即处理后的号码，实际提交数据的号码存在 phone 中 -->
 <!-- maxlength = 13 是因为bPhone是处理过的手机号码，中间会有两个空格，因此是13位 -->
@@ -141,16 +149,16 @@ validPhone() {
 
 ```javascript
 if (status === "minus") {
-	// 当删除空格时，需要手动将空格前一位也一并删除，因此光标位置也要减一
-	// 获取当前的位置是包含空格的，但删除需要注意，是要删除没有空格下的数据（未处理），也就是temp
-	if (pos === 3) {
-		temp.splice(2, 1)
-		cursorPos--
-	}
-	if (pos === 8) {
-		temp.splice(6, 1)
-		cursorPos--
-	}
+  // 当删除空格时，需要手动将空格前一位也一并删除，因此光标位置也要减一
+  // 获取当前的位置是包含空格的，但删除需要注意，是要删除没有空格下的数据（未处理），也就是temp
+  if (pos === 3) {
+    temp.splice(2, 1)
+    cursorPos--
+  }
+  if (pos === 8) {
+    temp.splice(6, 1)
+    cursorPos--
+  }
 }
 ```
 
@@ -169,5 +177,5 @@ TODO
 
 ## 附录
 
--   [inputType 兼容性 🚀](https://caniuse.com/?search=inputtype)
--   [inputType MDN 文档 🚀](https://developer.mozilla.org/zh-CN/docs/Web/API/InputEvent/inputType)
+- [inputType 兼容性 🚀](https://caniuse.com/?search=inputtype)
+- [inputType MDN 文档 🚀](https://developer.mozilla.org/zh-CN/docs/Web/API/InputEvent/inputType)

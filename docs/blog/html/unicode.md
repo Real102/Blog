@@ -19,7 +19,7 @@
 let str = "hello world"
 let arr = []
 str.split("").forEach(item => {
-	arr.push(item.codePointAt(0))
+  arr.push(item.codePointAt(0))
 })
 // arr: (11) [104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100]
 
@@ -27,7 +27,7 @@ str.split("").forEach(item => {
 let arr = [104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100]
 let res = []
 arr.forEach(item => {
-	res.push(String.fromCharCode(item))
+  res.push(String.fromCharCode(item))
 })
 // res: (11) ["h", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d"]
 ```
@@ -54,11 +54,11 @@ U+表示紧跟在后面的十六进制数是 Unicode 的码点（但一般情况
 let str = "我们都是中国人`0"
 let uni = ""
 str.split("").forEach(item => {
-	// 转换成十六进制（码点），并在前面加上'\u'
-	// 注意：这里需要处理一下，位数如果小于4的话，后面转换会出错
-	let temp = item.codePointAt(0).toString(16)
-	while (temp.length < 4) temp = 0 + temp
-	uni += "\\u" + temp
+  // 转换成十六进制（码点），并在前面加上'\u'
+  // 注意：这里需要处理一下，位数如果小于4的话，后面转换会出错
+  let temp = item.codePointAt(0).toString(16)
+  while (temp.length < 4) temp = 0 + temp
+  uni += "\\u" + temp
 })
 // console.log(uni)
 // \u6211\u4eec\u90fd\u662f\u4e2d\u56fd\u4eba\u0060\u0030
@@ -76,10 +76,10 @@ let res = unescape(str.replace(/\\/gi, "%"))
 > [百度百科 🚀](https://baike.baidu.com/item/UTF-8/481798?fr=aladdin)  
 > UTF-8（Universal Character Set/Unicode Transformation Format）是针对 Unicode 的一种**可变长度字符编码**（使用 1~4 字节为每个字符编码）。它可以用来表示 Unicode 标准中的任何字符
 
--   一个 ASCII 字符只需 1 字节编码（Unicode 范围由 U+0000~U+007F）
--   带有变音符号的拉丁文、希腊文、西里尔字母、亚美尼亚语、希伯来文、阿拉伯文、叙利亚文等字母则需要 2 字节编码（Unicode 范围由 U+0080~U+07FF）
--   其他语言的字符（包括中日韩文字、东南亚文字、中东文字等）包含了大部分常用字，使用 3 字节编码
--   其他极少使用的语言字符使用 4 字节编码
+- 一个 ASCII 字符只需 1 字节编码（Unicode 范围由 U+0000~U+007F）
+- 带有变音符号的拉丁文、希腊文、西里尔字母、亚美尼亚语、希伯来文、阿拉伯文、叙利亚文等字母则需要 2 字节编码（Unicode 范围由 U+0080~U+07FF）
+- 其他语言的字符（包括中日韩文字、东南亚文字、中东文字等）包含了大部分常用字，使用 3 字节编码
+- 其他极少使用的语言字符使用 4 字节编码
 
 可以明显的感觉到，UTF-8 的这个特性可以节省很多空间，试想一下，如果用 UTF-32 编码，每一个字符都用四个字节表示，除了极少的语言字符需要用到四个字节外，其他都不需要用到那么多空间，导致浪费很多的资源。这也使得 UTF-8 成为互联网上最常见的网页编码
 
@@ -129,6 +129,6 @@ let res = unescape(str.replace(/\\/gi, "%"))
 
 ### 参考文档
 
--   [ASCII 编码 🚀](https://baike.baidu.com/item/ASCII/309296)
--   [Unicode 编码 🚀](https://baike.baidu.com/item/Unicode%E7%A0%81/7704811?fr=aladdin)
--   [Unicode 与 JavaScript 详解 🚀](http://www.ruanyifeng.com/blog/2014/12/unicode.html)
+- [ASCII 编码 🚀](https://baike.baidu.com/item/ASCII/309296)
+- [Unicode 编码 🚀](https://baike.baidu.com/item/Unicode%E7%A0%81/7704811?fr=aladdin)
+- [Unicode 与 JavaScript 详解 🚀](http://www.ruanyifeng.com/blog/2014/12/unicode.html)

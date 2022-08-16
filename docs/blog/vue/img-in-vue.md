@@ -21,7 +21,7 @@
 
 主要分使用的场景，这里就直接看代码了
 
--   template 中使用
+- template 中使用
 
 ```html
 <!-- 以 ~ 开头，其后的任何内容都会作为一个模块请求被解析 -->
@@ -32,7 +32,7 @@
 <img src="/public/img/xx.png" alt="" />
 ```
 
--   script 中的动态 url
+- script 中的动态 url
 
 ```html
 <img :src="imgUrl" />
@@ -52,7 +52,7 @@ data() {
 },
 ```
 
--   css 中的图片
+- css 中的图片
 
 ```css
 background: url("/public/img/xx.png"); /*绝对路径✅*/
@@ -68,12 +68,12 @@ background: url("~@/assets/imgs/xx.png"); /*相对路径✅*/
 
 ```javascript
 chainWebpack: config => {
-	config.module
-		.rule("images")
-		.use("url-loader")
-		.loader("url-loader")
-		.tap(options => Object.assign(options, { limit: 10240 }))
-		.end()
+  config.module
+    .rule("images")
+    .use("url-loader")
+    .loader("url-loader")
+    .tap(options => Object.assign(options, { limit: 10240 }))
+    .end()
 }
 ```
 
@@ -83,15 +83,15 @@ chainWebpack: config => {
 
 ```javascript
 chainWebpack: config => {
-	config.module
-		.rule("images")
-		.test(/\.(png|jpg|jpeg|gif|svg)$/i)
-		.use("image-webpack-loader")
-		.loader("image-webpack-loader")
-		.options({
-			bypassOnDebug: true
-		})
-		.end()
+  config.module
+    .rule("images")
+    .test(/\.(png|jpg|jpeg|gif|svg)$/i)
+    .use("image-webpack-loader")
+    .loader("image-webpack-loader")
+    .options({
+      bypassOnDebug: true
+    })
+    .end()
 }
 ```
 

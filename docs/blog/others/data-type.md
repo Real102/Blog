@@ -4,10 +4,10 @@
 
 ### Buffer 、 ArrayBuffer 、 TypedArray 、 Blob
 
--   `Buffer` 是 `node` 环境下的缓冲器，用于表示固定长度的字节序列（`Buffer.from() | Buffer.alloc()`），可用 `toString()` 方法转成字符串，也可以指定编码格式
--   `ArrayBuffer` 是 `window` 环境下的二进制/字节数组，是对固定长度的连续内存空间的引用（`new ArrayBuffer(length)`），可用 [TextDecoder](https://developer.mozilla.org/zh-CN/docs/Web/API/TextDecoder) 🚀 构造函数解析成字符串
--   `TypedArray` 称为视图（`Uint8Array，Uint32Array`），是操作 `ArrayBuffer` 的主要途径
--   `Blob` 表示一个不可变、原始数据的类文件对象，它的数据可以按文本或二进制的格式进行读取，也可以转换成 ReadableStream 来用于数据操作。可以通过 [FileReader](https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader) 🚀 转换成指定格式
+- `Buffer` 是 `node` 环境下的缓冲器，用于表示固定长度的字节序列（`Buffer.from() | Buffer.alloc()`），可用 `toString()` 方法转成字符串，也可以指定编码格式
+- `ArrayBuffer` 是 `window` 环境下的二进制/字节数组，是对固定长度的连续内存空间的引用（`new ArrayBuffer(length)`），可用 [TextDecoder](https://developer.mozilla.org/zh-CN/docs/Web/API/TextDecoder) 🚀 构造函数解析成字符串
+- `TypedArray` 称为视图（`Uint8Array，Uint32Array`），是操作 `ArrayBuffer` 的主要途径
+- `Blob` 表示一个不可变、原始数据的类文件对象，它的数据可以按文本或二进制的格式进行读取，也可以转换成 ReadableStream 来用于数据操作。可以通过 [FileReader](https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader) 🚀 转换成指定格式
 
 ## Buffer
 
@@ -53,7 +53,7 @@ console.log(buf5)
 
 `Buffer.from()` 根据输入的数据类型的不同，主要分为一下几种情况：
 
--   **Buffer.from(arrayBuffer|buffer, byteOffset, length)**
+- **Buffer.from(arrayBuffer|buffer, byteOffset, length)**
 
 `arrayBuffer`: `arrayBuffer` 格式数据  
 `byteOffset`: 开始拷贝的索引（下标），默认值为 0，可选参数  
@@ -79,7 +79,7 @@ console.log(buf2.toString())
 // buffer
 ```
 
--   **Buffer.from(object|string, offsetOrEncoding, length)**
+- **Buffer.from(object|string, offsetOrEncoding, length)**
 
 `object|string`: 要编码的字符串  
 `offsetOrEncoding`: 字节偏移量或字符编码，如果是 string，此值为编码格式  
@@ -96,7 +96,7 @@ console.log(buf2.toString())
 // this is a tést
 ```
 
--   **Buffer.from(array)**
+- **Buffer.from(array)**
 
 `array`: Array 数组
 
@@ -177,9 +177,9 @@ console.log(buf.readUInt8(1))
 
 `ArrayBuffer` 对象用来表示通用的、固定长度的原始二进制数据缓冲区，也是一个字节数组 (`byte array`)，但与数组 `array` 没有任何共同之处
 
--   它的长度是固定的，我们无法增加或减少它的长度
--   它正好占用了内存中的那么多空间
--   要访问单个字节，需要另一个“视图”对象（`TypedArray`），而不是 buffer[index]
+- 它的长度是固定的，我们无法增加或减少它的长度
+- 它正好占用了内存中的那么多空间
+- 要访问单个字节，需要另一个“视图”对象（`TypedArray`），而不是 buffer[index]
 
 ## TypedArray
 
@@ -259,7 +259,7 @@ let buf = new Uint8Array(arr.length)
 let blob
 // 遍历存储数据
 arr.forEach((v, i) => {
-	buf[i] = v
+  buf[i] = v
 })
 // 定义一个blob对象
 blob = new Blob([buf])
@@ -267,7 +267,7 @@ blob = new Blob([buf])
 let reader = new FileReader()
 reader.readAsText(blob)
 reader.onload = e => {
-	console.log(e.target.result) // hello world
+  console.log(e.target.result) // hello world
 }
 ```
 
@@ -277,7 +277,7 @@ reader.onload = e => {
 
 ## 参考文档
 
--   [nodeJS](http://nodejs.cn/api/) 🚀
--   [ArrayBuffer MDN 文档](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) 🚀
--   [TypedArray MDN 文档](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/TypedArray) 🚀
--   [Blob MDN 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Blob) 🚀
+- [nodeJS](http://nodejs.cn/api/) 🚀
+- [ArrayBuffer MDN 文档](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) 🚀
+- [TypedArray MDN 文档](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/TypedArray) 🚀
+- [Blob MDN 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Blob) 🚀
