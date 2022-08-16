@@ -1,4 +1,4 @@
-# 挖掘好用的前端插件
+# 【持续更新】挖掘好用的前端库
 
 ## 滚动插件
 
@@ -10,3 +10,9 @@
 - [css shake](https://elrumordelaluz.github.io/csshake/)
 - [Mo.js](https://mojs.github.io/tutorials/shape-swirl/#shape)：非常高级 `nice` 的动画库
 - [Hover.css](https://ianlunn.github.io/Hover/)：比较适合日常开发的动画
+
+## 富文本编辑器
+
+- wangEditor
+- Ueditor
+- quill
