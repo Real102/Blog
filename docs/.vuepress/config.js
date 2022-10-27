@@ -68,7 +68,8 @@ function getBlogSideBar() {
       children: [
         ["html/meta", "常用的meta标签"],
         ["html/unicode", "字符编码"],
-        ["html/font", "【字体压缩】淦，以后不用怕字体文件了"]
+        ["html/font", "【字体压缩】淦，以后不用怕字体文件了"],
+        ["html/vh", "vh 高度问题"]
       ]
     },
     {
@@ -99,7 +100,8 @@ function getBlogSideBar() {
       children: [
         ["vue/img-in-vue", "在vue项目中引入图片"],
         ["vue/vue-env", "vue 环境变量的设置与使用"],
-        ["vue/decorator", "Vue Property Decorator"]
+        ["vue/decorator", "Vue Property Decorator"],
+        ["vue/wechat-auth", "vue 项目下使用微信 js-sdk"]
       ]
     },
     {
@@ -133,6 +135,7 @@ function getBlogSideBar() {
       children: [
         ["others/onlineTime", "用户在线时长统计方案思考"],
         ["others/quickapp", "快应用的填坑日志"],
+        ["others/miniApp", "小程序探究"],
         ["others/nvm", "使用 nvm 来管理 npm"],
         ["others/vscode-for-web", "搭建 web 版 vs code"],
         ["others/ws-in-vscode", "研究vscode中的websocket"],
@@ -160,7 +163,8 @@ function getUglySideBar() {
         ["2022.2", "2022.2"],
         ["2022.3", "2022.3"],
         ["2022.4", "2022.4"],
-        ["2022.5", "2022.5"]
+        ["2022.5", "2022.5"],
+        ["2022.6", "2022.6"]
       ]
     }
   ]
@@ -180,7 +184,9 @@ function getGoldSideBar() {
       sidebarDepth: 1,
       children: [
         ["prev/fe-views", "摸鱼必看的前端知识点"],
-        ["prev/splitChunk", "splitChunks 与 import 方式的化学反应"]
+        ["prev/splitChunk", "splitChunks 与 import 方式的化学反应"],
+        ["prev/browser", "挖掘谷歌浏览器小工具"],
+        ["prev/quickapp-css", "快应用样式"]
       ]
     },
     {
@@ -189,9 +195,9 @@ function getGoldSideBar() {
       sidebarDepth: 1,
       children: [
         ["next/worker", "在 vue 中使用 web worker"],
-        ["next/browser", "挖掘谷歌浏览器小工具"],
         ["next/software", "挖掘好用的PC软件"],
-        ["next/plugins", "挖掘好用的前端插件"]
+        ["next/plugins", "挖掘好用的前端插件"],
+        ["next/quickapp-html", "快应用页面结构"]
       ]
     }
   ]
