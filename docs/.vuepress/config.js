@@ -101,7 +101,7 @@ function getBlogSideBar() {
         ["vue/img-in-vue", "在vue项目中引入图片"],
         ["vue/vue-env", "vue 环境变量的设置与使用"],
         ["vue/decorator", "Vue Property Decorator"],
-        ["vue/wechat-auth", "vue 项目下使用微信 js-sdk"]
+        ["vue/wechat-auth", "微信 JS-SDK 实现自定义分享功能"]
       ]
     },
     {
@@ -164,7 +164,8 @@ function getUglySideBar() {
         ["2022.3", "2022.3"],
         ["2022.4", "2022.4"],
         ["2022.5", "2022.5"],
-        ["2022.6", "2022.6"]
+        ["2022.6", "2022.6"],
+        ["2022.7", "2022.7"]
       ]
     }
   ]
