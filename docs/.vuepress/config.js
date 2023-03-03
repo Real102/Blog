@@ -69,7 +69,8 @@ function getBlogSideBar() {
         ["html/meta", "常用的meta标签"],
         ["html/unicode", "字符编码"],
         ["html/font", "【字体压缩】淦，以后不用怕字体文件了"],
-        ["html/vh", "vh 高度问题"]
+        ["html/vh", "vh 高度问题"],
+        ["html/scss", "scss 常见用法"]
       ]
     },
     {
@@ -134,6 +135,7 @@ function getBlogSideBar() {
       sidebarDepth: 1,
       children: [
         ["others/onlineTime", "用户在线时长统计方案思考"],
+        ["others/test-unit", "单元测试"],
         ["others/quickapp", "快应用的填坑日志"],
         ["others/miniApp", "小程序探究"],
         ["others/nvm", "使用 nvm 来管理 npm"],
@@ -165,7 +167,12 @@ function getUglySideBar() {
         ["2022.4", "2022.4"],
         ["2022.5", "2022.5"],
         ["2022.6", "2022.6"],
-        ["2022.7", "2022.7"]
+        ["2022.7", "2022.7"],
+        ["2023.1", "2023.1"],
+        ["2023.2", "2023.2"],
+        // ["技术点", "技术点"],
+        // ["ts类型", "ts类型"],
+        ["测试用例", "测试用例"]
       ]
     }
   ]

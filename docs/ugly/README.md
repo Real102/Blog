@@ -14,12 +14,12 @@
 - <span style="color:#3eaf7c">深入理解 TypeScript</span>
 - <span style="color:#3eaf7c">vue2 源码</span>
 - <span style="color:#3eaf7c">vuex 源码</span>
+- <span style="color:#3eaf7c">pinia</span>
+- <span style="color:#3eaf7c">vite</span>
 - vue3 源码
 - node 文档
 - express
 - koa
-- pinia
-- vite
 - icestark -- 微前端解决方案
 
 ## NEXT
@@ -55,6 +55,7 @@
 - svg 路径绘制
 - [flyjs](https://github.com/wendux/fly) 一个支持所有 JavaScript 运行环境的基于 Promise 的、支持请求转发、强大的 http 请求库。
 - 技术深度？
+- 单元测试
 
 ## Articles
 
@@ -64,3 +65,16 @@
 - vue 环境变量问题
 - 微信 js-sdk
 - vite
+
+## Plugins
+
+- [H5 端实现扫一扫功能](https://github.com/mebjas/html5-qrcode)
+- [图片裁剪功能](https://github.com/acccccccb/vue-img-cutter)
+- [PDF 插件](https://github.com/mozilla/pdf.js)
+- [获取图片元数据](https://github.com/exif-js/exif-js)
+- [生成 Excel 文件](https://docs.sheetjs.com/)
+
+## Learning
+
+- 微信聊天机器人实现原理
+- 低代码平台实现思路
