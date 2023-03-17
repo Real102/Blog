@@ -1,4 +1,4 @@
-# 【实用篇】splitChunks 与 import 方式的化学反应
+# 浅析 splitChunks 与 import 方式之间的关系
 
 ## 前言
 
