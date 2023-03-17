@@ -56,6 +56,8 @@
 - [flyjs](https://github.com/wendux/fly) 一个支持所有 JavaScript 运行环境的基于 Promise 的、支持请求转发、强大的 http 请求库。
 - 技术深度？
 - 单元测试
+- monorepo
+- vue-property-decorator 源码学习，熟悉@decorator 装饰器原理
 
 ## Articles
 
